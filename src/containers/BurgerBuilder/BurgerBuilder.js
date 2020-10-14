@@ -1,16 +1,18 @@
 import React from "react";
-
+import Burger from "../../components/Burger/Burger";
 class BurgerBuilder extends React.Component {
-    state = {};
+    state = {
+        ingredients: {
+            Salad: 1,
+            Bacon: 1,
+            Cheese: 1,
+            Meat: 1,
+        },
+    };
     render() {
         return (
             <React.Fragment>
-                <div>
-
-                </div>
-                <div>
-                    
-                </div>
+                <Burger ingredients={this.state.ingredients} />
             </React.Fragment>
         );
     }
