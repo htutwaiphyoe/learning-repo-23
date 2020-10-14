@@ -17,6 +17,15 @@ class BurgerBuilder extends React.Component {
             Meat: 0,
         },
         price: 2,
+        purchasable: false,
+    };
+
+    purchasableHandler = (ingredients) => {
+        let sum = 0;
+        for (let key of Object.keys(ingredients)) {
+            sum += ingredients[key];
+        }
+        return sum === 0 ? false : true;
     };
     onMoreButtonClick = (type) => {
         const ingredients = { ...this.state.ingredients };
@@ -26,6 +35,7 @@ class BurgerBuilder extends React.Component {
         this.setState({
             ingredients,
             price,
+            purchasable: this.purchasableHandler(ingredients),
         });
     };
     onLessButtonClick = (type) => {
@@ -37,6 +47,7 @@ class BurgerBuilder extends React.Component {
             this.setState({
                 ingredients,
                 price,
+                purchasable: this.purchasableHandler(ingredients),
             });
         }
     };
@@ -54,6 +65,7 @@ class BurgerBuilder extends React.Component {
                     onLessButtonClick={this.onLessButtonClick}
                     disabled={disabled}
                     price={this.state.price}
+                    purchasable={this.state.purchasable}
                 />
             </React.Fragment>
         );

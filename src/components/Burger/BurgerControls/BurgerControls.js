@@ -18,6 +18,9 @@ const BurgerControls = (props) => {
         <div className={classes.BurgerControls}>
             <p>Current price: ${props.price.toFixed(2)}</p>
             {burgerControls}
+            <button className={classes.OrderButton} disabled={!props.purchasable}>
+                Order Now
+            </button>
         </div>
     );
 };
