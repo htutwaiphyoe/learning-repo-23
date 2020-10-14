@@ -4,7 +4,7 @@ const BurgerControl = (props) => {
     return (
         <div className={classes.BurgerControl}>
             <div className={classes.Label}>{props.label}</div>
-            <button className={classes.Less} onClick={props.onLessClick}>
+            <button className={classes.Less} onClick={props.onLessClick} disabled={props.disabled}>
                 Less
             </button>
             <button className={classes.More} onClick={props.onMoreClick}>

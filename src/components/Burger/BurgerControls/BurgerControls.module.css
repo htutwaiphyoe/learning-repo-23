@@ -8,3 +8,9 @@
     background-color: #cf8f2e;
     box-shadow: 0 2px 1px #ccc;
 }
+
+.BurgerControls p {
+    font-size: 1.8rem;
+    font-weight: bold;
+    padding: 1rem 0;
+}

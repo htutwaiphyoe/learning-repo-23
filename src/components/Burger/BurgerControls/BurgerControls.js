@@ -11,9 +11,15 @@ const BurgerControls = (props) => {
             key={control}
             onLessClick={() => props.onLessButtonClick(control)}
             onMoreClick={() => props.onMoreButtonClick(control)}
+            disabled={props.disabled[control]}
         />
     ));
-    return <div className={classes.BurgerControls}>{burgerControls}</div>;
+    return (
+        <div className={classes.BurgerControls}>
+            <p>Current price: ${props.price.toFixed(2)}</p>
+            {burgerControls}
+        </div>
+    );
 };
 
 export default BurgerControls;

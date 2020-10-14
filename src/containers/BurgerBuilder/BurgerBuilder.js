@@ -30,21 +30,30 @@ class BurgerBuilder extends React.Component {
     };
     onLessButtonClick = (type) => {
         const ingredients = { ...this.state.ingredients };
-        ingredients[type] -= 1;
-        const oldPrice = this.state.price;
-        const price = oldPrice - INGREDIENT_PRICE[type];
-        this.setState({
-            ingredients,
-            price,
-        });
+        if (ingredients[type] > 0) {
+            ingredients[type] -= 1;
+            const oldPrice = this.state.price;
+            const price = oldPrice - INGREDIENT_PRICE[type];
+            this.setState({
+                ingredients,
+                price,
+            });
+        }
     };
+
     render() {
+        let disabled = { ...this.state.ingredients };
+        for (let key in disabled) {
+            disabled[key] = disabled[key] <= 0;
+        }
         return (
             <React.Fragment>
                 <Burger ingredients={this.state.ingredients} />
                 <BurgerControls
                     onMoreButtonClick={this.onMoreButtonClick}
                     onLessButtonClick={this.onLessButtonClick}
+                    disabled={disabled}
+                    price={this.state.price}
                 />
             </React.Fragment>
         );
