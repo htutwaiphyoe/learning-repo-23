@@ -3,6 +3,7 @@ import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BurgerControls/BurgerControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -68,9 +69,10 @@ class BurgerBuilder extends React.Component {
 
         return (
             <React.Fragment>
-                <Modal show={this.state.shownModal}>
+                <Modal show={this.state.shownModal} onShowModal={this.onShowModalHandler}>
                     <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
                 </Modal>
+
                 <Burger ingredients={this.state.ingredients} />
                 <BurgerControls
                     onMoreButtonClick={this.onMoreButtonClick}
