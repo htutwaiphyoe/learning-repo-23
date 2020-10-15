@@ -65,17 +65,12 @@ class BurgerBuilder extends React.Component {
         for (let key in disabled) {
             disabled[key] = disabled[key] <= 0;
         }
-        let modal = null;
-        if (this.state.shownModal) {
-            modal = (
-                <Modal>
-                    <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
-                </Modal>
-            );
-        }
+
         return (
             <React.Fragment>
-                {modal}
+                <Modal show={this.state.shownModal}>
+                    <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
+                </Modal>
                 <Burger ingredients={this.state.ingredients} />
                 <BurgerControls
                     onMoreButtonClick={this.onMoreButtonClick}
