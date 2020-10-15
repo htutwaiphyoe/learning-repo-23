@@ -1,7 +1,8 @@
 import React from "react";
 import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BurgerControls/BurgerControls";
-
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -18,8 +19,15 @@ class BurgerBuilder extends React.Component {
         },
         price: 2,
         purchasable: false,
+        shownModal: false,
     };
-
+    onShowModalHandler = () => {
+        this.setState((state, props) => {
+            return {
+                shownModal: !state.shownModal,
+            };
+        });
+    };
     purchasableHandler = (ingredients) => {
         let sum = 0;
         for (let key of Object.keys(ingredients)) {
@@ -57,8 +65,17 @@ class BurgerBuilder extends React.Component {
         for (let key in disabled) {
             disabled[key] = disabled[key] <= 0;
         }
+        let modal = null;
+        if (this.state.shownModal) {
+            modal = (
+                <Modal>
+                    <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
+                </Modal>
+            );
+        }
         return (
             <React.Fragment>
+                {modal}
                 <Burger ingredients={this.state.ingredients} />
                 <BurgerControls
                     onMoreButtonClick={this.onMoreButtonClick}
@@ -66,6 +83,7 @@ class BurgerBuilder extends React.Component {
                     disabled={disabled}
                     price={this.state.price}
                     purchasable={this.state.purchasable}
+                    onShowModal={this.onShowModalHandler}
                 />
             </React.Fragment>
         );
