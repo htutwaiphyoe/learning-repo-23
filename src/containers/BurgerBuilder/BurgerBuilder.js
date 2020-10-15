@@ -70,7 +70,11 @@ class BurgerBuilder extends React.Component {
         return (
             <React.Fragment>
                 <Modal show={this.state.shownModal} onShowModal={this.onShowModalHandler}>
-                    <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        price={this.state.price}
+                        onShowModal={this.onShowModalHandler}
+                    />
                 </Modal>
 
                 <Burger ingredients={this.state.ingredients} />
