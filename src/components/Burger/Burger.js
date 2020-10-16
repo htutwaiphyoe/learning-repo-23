@@ -8,10 +8,11 @@ const Burger = (props) => {
             ingredients.push(<BurgerIngredient type={type} key={`${type}-${i}`} />);
         }
     }
+
     return (
         <div className={classes.Burger}>
             <BurgerIngredient type="BreadTop" />
-            {ingredients}
+            {ingredients.length > 0 ? ingredients : <p>Please add burger ingredients</p>}
             <BurgerIngredient type="BreadBottom" />
         </div>
     );

@@ -7,7 +7,9 @@
     font-weight: bold;
     font-size: 1.2rem;
 }
-
+.Burger p {
+    font-size: 1.5rem;
+}
 @media (min-width: 360px) and (min-height: 100px) {
     .Burger {
         width: 350px;
