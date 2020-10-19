@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./BurgerControls.module.css";
 import BurgerControl from "./BurgerControl/BurgerControl";
-
+import PropTypes from "prop-types";
 const controls = ["Salad", "Bacon", "Cheese", "Meat"];
 
 const BurgerControls = (props) => {
@@ -27,6 +27,15 @@ const BurgerControls = (props) => {
             </button>
         </div>
     );
+};
+
+BurgerControls.propTypes = {
+    onMoreButtonClick: PropTypes.func.isRequired,
+    onLessButtonClick: PropTypes.func.isRequired,
+    price: PropTypes.number.isRequired,
+    purchasable: PropTypes.bool.isRequired,
+    onShowModal: PropTypes.func.isRequired,
+    disabled: PropTypes.object.isRequired,
 };
 
 export default BurgerControls;
