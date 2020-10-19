@@ -5,7 +5,11 @@ import classes from "./SideDrawer.module.css";
 const SideDrawer = (props) => {
     return (
         <React.Fragment>
-            <div className={classes.SideDrawer}>
+            <div
+                className={`${classes.SideDrawer} ${
+                    props.shownSideDrawer ? classes.Open : classes.Close
+                }`}
+            >
                 <nav>
                     <NavigationItems />
                 </nav>
@@ -13,7 +17,7 @@ const SideDrawer = (props) => {
                     Developed by <a href="https://htutwaiphyoe.netlify.app"> Htut Wai Phyoe</a>
                 </p>
             </div>
-            {/* <Backdrop show /> */}
+            <Backdrop show={props.shownSideDrawer} onShow={props.onClickHandler} />
         </React.Fragment>
     );
 };
