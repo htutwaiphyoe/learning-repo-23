@@ -3,10 +3,11 @@
     display: flex;
     align-items: center;
     height: 100%;
+    flex-flow: column;
 }
 
-/* @media only screen and (max-width: 576px) {
+@media only screen and (min-width: 576px) {
     .NavigationItems {
-        display: none;
+        flex-flow: row;
     }
-} */
+}
