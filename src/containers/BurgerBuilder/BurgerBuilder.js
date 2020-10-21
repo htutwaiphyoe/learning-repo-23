@@ -5,7 +5,6 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import burgerbuilder from "../../api/burgerbuilder";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import ErrorPage from "../../hoc/ErrorPage/ErrorPage";
 import classes from "./BurgerBuilder.module.css";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
