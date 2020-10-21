@@ -4,6 +4,7 @@ import BurgerControls from "../../components/Burger/BurgerControls/BurgerControl
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import burgerbuilder from "../../api/burgerbuilder";
+import Spinner from "../../components/UI/Spinner/Spinner";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -63,17 +64,27 @@ class BurgerBuilder extends React.Component {
     };
     onContinueHandler = async () => {
         try {
-            this.setState({
-                loading: true,
-            });
+            this.setState({ loading: true });
             const response = await burgerbuilder.post("/orders.json", {
                 ingredients: this.state.ingredients,
                 price: this.state.price,
             });
-            this.setState({ loading: false });
+
+            this.setState({
+                loading: false,
+                shownModal: false,
+                ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
+                price: 2,
+            });
             console.log(response);
         } catch (e) {
             alert(e.message);
+            this.setState({
+                loading: false,
+                shownModal: false,
+                ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
+                price: 2,
+            });
         }
     };
     render() {
@@ -81,18 +92,22 @@ class BurgerBuilder extends React.Component {
         for (let key in disabled) {
             disabled[key] = disabled[key] <= 0;
         }
-
+        let orderSummary = (
+            <OrderSummary
+                ingredients={this.state.ingredients}
+                price={this.state.price}
+                onShowModal={this.onShowModalHandler}
+                show={this.state.shownModal}
+                onContinue={this.onContinueHandler}
+            />
+        );
+        if (this.state.loading) {
+            orderSummary = <Spinner />;
+        }
         return (
             <React.Fragment>
                 <Modal show={this.state.shownModal} onShowModal={this.onShowModalHandler}>
-                    <OrderSummary
-                        ingredients={this.state.ingredients}
-                        price={this.state.price}
-                        onShowModal={this.onShowModalHandler}
-                        show={this.state.shownModal}
-                        onContinue={this.onContinueHandler}
-                        loading={this.state.loading}
-                    />
+                    {orderSummary}
                 </Modal>
 
                 <Burger ingredients={this.state.ingredients} />
