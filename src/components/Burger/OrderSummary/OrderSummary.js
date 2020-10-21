@@ -7,6 +7,7 @@ const OrderSummary = (props) => {
             {k}: {props.ingredients[k]}
         </li>
     ));
+
     return (
         <React.Fragment>
             <h3>Your Order Summary</h3>
@@ -18,7 +19,7 @@ const OrderSummary = (props) => {
             <Button type="Danger" onButtonClick={props.onShowModal}>
                 CANCAL
             </Button>
-            <Button type="Success" onButtonClick={() => {}}>
+            <Button type="Success" onButtonClick={props.onContinue}>
                 CONTINUE
             </Button>
         </React.Fragment>

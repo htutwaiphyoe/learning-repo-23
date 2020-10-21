@@ -3,7 +3,7 @@ import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BurgerControls/BurgerControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
-
+import burgerbuilder from "../../api/burgerbuilder";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -21,6 +21,7 @@ class BurgerBuilder extends React.Component {
         price: 2,
         purchasable: false,
         shownModal: false,
+        loading: false,
     };
     onShowModalHandler = () => {
         this.setState((state, props) => {
@@ -60,7 +61,21 @@ class BurgerBuilder extends React.Component {
             });
         }
     };
-
+    onContinueHandler = async () => {
+        try {
+            this.setState({
+                loading: true,
+            });
+            const response = await burgerbuilder.post("/orders.json", {
+                ingredients: this.state.ingredients,
+                price: this.state.price,
+            });
+            this.setState({ loading: false });
+            console.log(response);
+        } catch (e) {
+            alert(e.message);
+        }
+    };
     render() {
         let disabled = { ...this.state.ingredients };
         for (let key in disabled) {
@@ -75,6 +90,8 @@ class BurgerBuilder extends React.Component {
                         price={this.state.price}
                         onShowModal={this.onShowModalHandler}
                         show={this.state.shownModal}
+                        onContinue={this.onContinueHandler}
+                        loading={this.state.loading}
                     />
                 </Modal>
 
