@@ -6,6 +6,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import burgerbuilder from "../../api/burgerbuilder";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import ErrorPage from "../../hoc/ErrorPage/ErrorPage";
+import classes from "./BurgerBuilder.module.css";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -14,17 +15,29 @@ const INGREDIENT_PRICE = {
 };
 class BurgerBuilder extends React.Component {
     state = {
-        ingredients: {
-            Salad: 0,
-            Bacon: 0,
-            Cheese: 0,
-            Meat: 0,
-        },
+        ingredients: null,
         price: 2,
         purchasable: false,
         shownModal: false,
         loading: false,
+        error: null,
     };
+    loadIngredients = async () => {
+        try {
+            const response = await burgerbuilder.get("/ingredients.json");
+            this.setState({ ingredients: response.data });
+        } catch (err) {
+            this.setState({
+                error: {
+                    type: "LOAD_INGREDIENTS",
+                    message: err.message,
+                },
+            });
+        }
+    };
+    componentDidMount() {
+        this.loadIngredients();
+    }
     onShowModalHandler = () => {
         this.setState((state, props) => {
             return {
@@ -78,13 +91,13 @@ class BurgerBuilder extends React.Component {
                 price: 2,
                 purchasable: false,
             });
-        } catch (e) {
+        } catch (err) {
             this.setState({
                 loading: false,
-                shownModal: false,
-                ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
-                price: 2,
-                purchasable: false,
+                error: {
+                    type: "POST_ORDER",
+                    message: err.message,
+                },
             });
         }
     };
@@ -93,36 +106,60 @@ class BurgerBuilder extends React.Component {
         for (let key in disabled) {
             disabled[key] = disabled[key] <= 0;
         }
-        let orderSummary = (
-            <OrderSummary
-                ingredients={this.state.ingredients}
-                price={this.state.price}
-                onShowModal={this.onShowModalHandler}
-                show={this.state.shownModal}
-                onContinue={this.onContinueHandler}
-            />
+        let orderSummary = null;
+        let burgerbuilder = (
+            <div className={classes.BurgerBuilder}>
+                <Spinner />
+            </div>
         );
+        if (this.state.ingredients) {
+            orderSummary = (
+                <OrderSummary
+                    ingredients={this.state.ingredients}
+                    price={this.state.price}
+                    onShowModal={this.onShowModalHandler}
+                    show={this.state.shownModal}
+                    onContinue={this.onContinueHandler}
+                />
+            );
+            burgerbuilder = (
+                <React.Fragment>
+                    <Burger ingredients={this.state.ingredients} />
+                    <BurgerControls
+                        onMoreButtonClick={this.onMoreButtonClick}
+                        onLessButtonClick={this.onLessButtonClick}
+                        disabled={disabled}
+                        price={this.state.price}
+                        purchasable={this.state.purchasable}
+                        onShowModal={this.onShowModalHandler}
+                    />
+                </React.Fragment>
+            );
+        }
         if (this.state.loading) {
             orderSummary = <Spinner />;
         }
+        if (this.state.error) {
+            if (this.state.error.type === "LOAD_INGREDIENTS") {
+                burgerbuilder = (
+                    <div className={classes.BurgerBuilder}>
+                        <p className={classes.Error}>{this.state.error.message}</p>
+                    </div>
+                );
+            } else if (this.state.error.type === "POST_ORDER") {
+                orderSummary = <p className={classes.Error}>{this.state.error.message}</p>;
+            }
+        }
+
         return (
             <React.Fragment>
                 <Modal show={this.state.shownModal} onShowModal={this.onShowModalHandler}>
                     {orderSummary}
                 </Modal>
-
-                <Burger ingredients={this.state.ingredients} />
-                <BurgerControls
-                    onMoreButtonClick={this.onMoreButtonClick}
-                    onLessButtonClick={this.onLessButtonClick}
-                    disabled={disabled}
-                    price={this.state.price}
-                    purchasable={this.state.purchasable}
-                    onShowModal={this.onShowModalHandler}
-                />
+                {burgerbuilder}
             </React.Fragment>
         );
     }
 }
 
-export default ErrorPage(BurgerBuilder, burgerbuilder);
+export default BurgerBuilder;
