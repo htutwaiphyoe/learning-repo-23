@@ -6,7 +6,7 @@ const ErrorPage = (WrappedComponent, axios) => {
             error: null,
         };
         componentDidMount() {
-            axios.interceptors.request.use(
+            this.requestInterceptor = axios.interceptors.request.use(
                 (config) => {
                     this.onShowModal();
                     return config;
@@ -16,7 +16,7 @@ const ErrorPage = (WrappedComponent, axios) => {
                     return Promise.reject(error);
                 }
             );
-            axios.interceptors.response.use(
+            this.responseInterceptor = axios.interceptors.response.use(
                 (config) => {
                     return config;
                 },
@@ -26,7 +26,10 @@ const ErrorPage = (WrappedComponent, axios) => {
                 }
             );
         }
-
+        componentWillUnmount() {
+            axios.interceptors.request.eject(this.requestInterceptor);
+            axios.interceptors.response.eject(this.responseInterceptor);
+        }
         onShowModal = () => {
             this.setState({ error: null });
         };
