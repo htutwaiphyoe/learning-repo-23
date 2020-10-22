@@ -5,6 +5,7 @@ import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import burgerbuilder from "../../api/burgerbuilder";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import ErrorPage from "../../hoc/ErrorPage/ErrorPage";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -65,7 +66,7 @@ class BurgerBuilder extends React.Component {
     onContinueHandler = async () => {
         try {
             this.setState({ loading: true });
-            const response = await burgerbuilder.post("/orders.json", {
+            await burgerbuilder.post("/orders.json", {
                 ingredients: this.state.ingredients,
                 price: this.state.price,
             });
@@ -75,15 +76,15 @@ class BurgerBuilder extends React.Component {
                 shownModal: false,
                 ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
                 price: 2,
+                purchasable: false,
             });
-            console.log(response);
         } catch (e) {
-            alert(e.message);
             this.setState({
                 loading: false,
                 shownModal: false,
                 ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
                 price: 2,
+                purchasable: false,
             });
         }
     };
@@ -124,4 +125,4 @@ class BurgerBuilder extends React.Component {
     }
 }
 
-export default BurgerBuilder;
+export default ErrorPage(BurgerBuilder, burgerbuilder);
