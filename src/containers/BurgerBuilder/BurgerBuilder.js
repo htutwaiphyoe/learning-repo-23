@@ -75,30 +75,34 @@ class BurgerBuilder extends React.Component {
             });
         }
     };
-    onContinueHandler = async () => {
-        try {
-            this.setState({ loading: true });
-            await burgerbuilder.post("/orders.json", {
-                ingredients: this.state.ingredients,
-                price: this.state.price,
-            });
+    onContinueHandler = () => {
+        this.props.history.push({
+            pathname: "/checkout",
+            search: `?Salad=${this.state.ingredients.Salad}&Bacon=${this.state.ingredients.Bacon}&Meat=${this.state.ingredients.Meat}&Cheese=${this.state.ingredients.Cheese}`,
+        });
+        // try {
+        //     this.setState({ loading: true });
+        //     await burgerbuilder.post("/orders.json", {
+        //         ingredients: this.state.ingredients,
+        //         price: this.state.price,
+        //     });
 
-            this.setState({
-                loading: false,
-                shownModal: false,
-                ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
-                price: 2,
-                purchasable: false,
-            });
-        } catch (err) {
-            this.setState({
-                loading: false,
-                error: {
-                    type: "POST_ORDER",
-                    message: err.message,
-                },
-            });
-        }
+        //     this.setState({
+        //         loading: false,
+        //         shownModal: false,
+        //         ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
+        //         price: 2,
+        //         purchasable: false,
+        //     });
+        // } catch (err) {
+        //     this.setState({
+        //         loading: false,
+        //         error: {
+        //             type: "POST_ORDER",
+        //             message: err.message,
+        //         },
+        //     });
+        // }
     };
     render() {
         let disabled = { ...this.state.ingredients };
