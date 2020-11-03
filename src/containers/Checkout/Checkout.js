@@ -16,10 +16,20 @@ class Checkout extends React.Component {
             console.log(param);
         }
     }
+    onCheckOutCancel = () => {
+        this.props.history.replace("/");
+    };
+    onCheckOutContinue = () => {
+        this.props.history.replace("/checkout/orderform");
+    };
     render() {
         return (
             <div>
-                <CheckoutSummary ingredients={this.state.ingredients} />
+                <CheckoutSummary
+                    ingredients={this.state.ingredients}
+                    onCheckOutContinue={this.onCheckOutContinue}
+                    onCheckOutCancel={this.onCheckOutCancel}
+                />
             </div>
         );
     }
