@@ -2,19 +2,16 @@ import React from "react";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 class Checkout extends React.Component {
     state = {
-        ingredients: {
-            Salad: 1,
-            Meat: 1,
-            Bacon: 1,
-            Cheese: 1,
-        },
+        ingredients: null,
     };
     componentDidMount() {
-        console.log(this.props.location.search);
         const query = new URLSearchParams(this.props.location.search);
-        for (let param in query.entries()) {
-            console.log(param);
+        const ingredients = {};
+        for (let param of query.entries()) {
+            ingredients[param[0]] = +param[1];
         }
+        console.log(ingredients);
+        this.setState({ ingredients });
     }
     onCheckOutCancel = () => {
         this.props.history.replace("/");
@@ -23,15 +20,17 @@ class Checkout extends React.Component {
         this.props.history.replace("/checkout/orderform");
     };
     render() {
-        return (
-            <div>
+        let component = null;
+        if (this.state.ingredients) {
+            component = (
                 <CheckoutSummary
                     ingredients={this.state.ingredients}
                     onCheckOutContinue={this.onCheckOutContinue}
                     onCheckOutCancel={this.onCheckOutCancel}
                 />
-            </div>
-        );
+            );
+        }
+        return <div>{component}</div>;
     }
 }
 

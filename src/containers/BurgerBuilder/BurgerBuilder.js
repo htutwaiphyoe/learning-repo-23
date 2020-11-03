@@ -76,9 +76,16 @@ class BurgerBuilder extends React.Component {
         }
     };
     onContinueHandler = () => {
+        let queryParams = [];
+        // use encodeURIComponent to transform valid components for URLSearchParams
+        for (let i in this.state.ingredients) {
+            queryParams.push(
+                `${encodeURIComponent(i)}=${encodeURIComponent(this.state.ingredients[i])}`
+            );
+        }
         this.props.history.push({
             pathname: "/checkout",
-            search: `?Salad=${this.state.ingredients.Salad}&Bacon=${this.state.ingredients.Bacon}&Meat=${this.state.ingredients.Meat}&Cheese=${this.state.ingredients.Cheese}`,
+            search: `?${queryParams.join("&")}`,
         });
         // try {
         //     this.setState({ loading: true });
