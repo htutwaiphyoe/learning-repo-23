@@ -6,6 +6,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import burgerbuilder from "../../api/burgerbuilder";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from "./BurgerBuilder.module.css";
+import Message from "../../components/UI/Message/Message";
 const INGREDIENT_PRICE = {
     Salad: 0.4,
     Bacon: 0.7,
@@ -83,33 +84,13 @@ class BurgerBuilder extends React.Component {
                 `${encodeURIComponent(i)}=${encodeURIComponent(this.state.ingredients[i])}`
             );
         }
+        queryParams.push(
+            `${encodeURIComponent("price")}=${encodeURIComponent(this.state.price.toFixed(2))}`
+        );
         this.props.history.push({
             pathname: "/checkout",
             search: `?${queryParams.join("&")}`,
         });
-        // try {
-        //     this.setState({ loading: true });
-        //     await burgerbuilder.post("/orders.json", {
-        //         ingredients: this.state.ingredients,
-        //         price: this.state.price,
-        //     });
-
-        //     this.setState({
-        //         loading: false,
-        //         shownModal: false,
-        //         ingredients: { ...this.state.ingredients, Salad: 0, Bacon: 0, Cheese: 0, Meat: 0 },
-        //         price: 2,
-        //         purchasable: false,
-        //     });
-        // } catch (err) {
-        //     this.setState({
-        //         loading: false,
-        //         error: {
-        //             type: "POST_ORDER",
-        //             message: err.message,
-        //         },
-        //     });
-        // }
     };
     render() {
         let disabled = { ...this.state.ingredients };
@@ -150,15 +131,11 @@ class BurgerBuilder extends React.Component {
             orderSummary = <Spinner />;
         }
         if (this.state.error) {
-            if (this.state.error.type === "LOAD_INGREDIENTS") {
-                burgerbuilder = (
-                    <div className={classes.BurgerBuilder}>
-                        <p className={classes.Error}>{this.state.error.message}</p>
-                    </div>
-                );
-            } else if (this.state.error.type === "POST_ORDER") {
-                orderSummary = <p className={classes.Error}>{this.state.error.message}</p>;
-            }
+            burgerbuilder = (
+                <div className={classes.BurgerBuilder}>
+                    <Message type="Error">{this.state.error.message}</Message>
+                </div>
+            );
         }
 
         return (
