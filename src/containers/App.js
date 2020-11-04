@@ -6,6 +6,7 @@ import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import { Suspense } from "react";
 import Spinner from "../components/UI/Spinner/Spinner";
 const Checkout = React.lazy(() => import("./Checkout/Checkout"));
+const Orders = React.lazy(() => import("./Orders/Orders"));
 class App extends React.Component {
     render() {
         return (
@@ -16,6 +17,7 @@ class App extends React.Component {
                             <Switch>
                                 <Route path="/" exact component={BurgerBuilder} />
                                 <Route path="/checkout" component={Checkout} />
+                                <Route path="/orders" exact component={Orders} />
                             </Switch>
                         </Layout>
                     </Suspense>

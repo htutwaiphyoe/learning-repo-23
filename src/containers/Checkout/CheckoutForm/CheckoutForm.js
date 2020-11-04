@@ -21,7 +21,7 @@ class CheckoutForm extends Component {
         e.preventDefault();
         try {
             this.setState({ loading: true });
-            await burgerbuilder.post("/orders", {
+            await burgerbuilder.post("/orders.json", {
                 ingredients: this.props.ingredients,
                 price: this.props.price,
                 customer: this.state.customer,
