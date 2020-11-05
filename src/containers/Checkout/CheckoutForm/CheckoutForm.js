@@ -8,11 +8,56 @@ import Message from "../../../components/UI/Message/Message";
 import Input from "../../../components/UI/Input/Input";
 class CheckoutForm extends Component {
     state = {
-        customer: {
-            name: "",
-            email: "",
-            phone: "",
-            address: "",
+        orderForm: {
+            name: {
+                elementType: "input",
+                elementConfig: {
+                    type: "text",
+                    name: "name",
+                    placeholder: "Your Name",
+                    required: true,
+                },
+                value: "",
+            },
+            email: {
+                elementType: "input",
+                elementConfig: {
+                    type: "email",
+                    name: "email",
+                    placeholder: "Your Email",
+                    required: true,
+                },
+                value: "",
+            },
+            phone: {
+                elementType: "input",
+                elementConfig: {
+                    type: "number",
+                    name: "phone",
+                    placeholder: "Your Phone",
+                    required: true,
+                },
+                value: "",
+            },
+            address: {
+                elementType: "textarea",
+                elementConfig: {
+                    name: "address",
+                    placeholder: "Your Address",
+                    rows: "5",
+                    required: true,
+                },
+                value: "",
+            },
+            deliveryMethod: {
+                elementType: "select",
+                elementConfig: {
+                    options: [
+                        { value: "fastest", displayValue: "Fastest" },
+                        { value: "cheapest", displayValue: "Cheapest" },
+                    ],
+                },
+            },
         },
         loading: false,
         error: null,
@@ -25,7 +70,7 @@ class CheckoutForm extends Component {
             await burgerbuilder.post("/orders.json", {
                 ingredients: this.props.ingredients,
                 price: this.props.price,
-                customer: this.state.customer,
+                customer: this.state.orderForm,
             });
 
             this.setState({
