@@ -5,6 +5,7 @@ import burgerbuilder from "../../../api/burgerbuilder";
 import classes from "./CheckoutForm.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Message from "../../../components/UI/Message/Message";
+import Input from "../../../components/UI/Input/Input";
 class CheckoutForm extends Component {
     state = {
         customer: {
@@ -49,7 +50,34 @@ class CheckoutForm extends Component {
             <React.Fragment>
                 <h1>Fill your contact info</h1>
                 <form>
-                    <input type="text" name="name" placeholder="Your Name" />
+                    <Input
+                        inputtype="input"
+                        type="text"
+                        name="name"
+                        placeholder="Your Name"
+                        required
+                    />
+                    <Input
+                        inputtype="input"
+                        type="email"
+                        name="email"
+                        placeholder="Your Email"
+                        required
+                    />
+                    <Input
+                        inputtype="input"
+                        type="number"
+                        name="phone"
+                        placeholder="Your Phone"
+                        required
+                    />
+                    <Input
+                        inputtype="textarea"
+                        name="address"
+                        placeholder="Your Address"
+                        required
+                        rows="5"
+                    />
                     <Button type="Success" onButtonClick={this.onOrderClick}>
                         Order
                     </Button>

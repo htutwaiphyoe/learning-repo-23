@@ -1,0 +1,22 @@
+.Input {
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+}
+.InputElement {
+    font-family: inherit;
+    font-size: 1.5rem;
+    outline: none;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
+    width: 100%;
+}
+
+.InputElement:focus {
+    border: 1px solid rgba(211, 132, 67, 0.781);
+}
+
+.InputElement:valid {
+    border: 1px solid #1fb41f;
+}

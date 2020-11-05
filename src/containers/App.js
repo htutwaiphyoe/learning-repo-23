@@ -12,15 +12,15 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div className="App">
-                    <Suspense fallback={<Spinner />}>
-                        <Layout>
-                            <Switch>
-                                <Route path="/" exact component={BurgerBuilder} />
-                                <Route path="/checkout" component={Checkout} />
+                    <Layout>
+                        <Switch>
+                            <Route path="/" exact component={BurgerBuilder} />
+                            <Suspense fallback={<Spinner />}>
                                 <Route path="/orders" exact component={Orders} />
-                            </Switch>
-                        </Layout>
-                    </Suspense>
+                                <Route path="/checkout" component={Checkout} />
+                            </Suspense>
+                        </Switch>
+                    </Layout>
                 </div>
             </BrowserRouter>
         );
