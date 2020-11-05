@@ -2,6 +2,8 @@ import React from "react";
 import { Route } from "react-router-dom";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
+import classes from "./Checkout.module.css";
+import Spinner from "../../components/UI/Spinner/Spinner";
 class Checkout extends React.Component {
     state = {
         ingredients: null,
@@ -27,7 +29,11 @@ class Checkout extends React.Component {
         this.props.history.replace("/checkout/form");
     };
     render() {
-        let component = null;
+        let component = (
+            <div className={classes.Checkout}>
+                <Spinner />
+            </div>
+        );
         if (this.state.ingredients) {
             component = (
                 <React.Fragment>

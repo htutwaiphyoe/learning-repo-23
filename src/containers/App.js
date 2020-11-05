@@ -15,7 +15,13 @@ class App extends React.Component {
                     <Layout>
                         <Switch>
                             <Route path="/" exact component={BurgerBuilder} />
-                            <Suspense fallback={<Spinner />}>
+                            <Suspense
+                                fallback={
+                                    <div style={{ margin: "20rem auto" }}>
+                                        <Spinner />
+                                    </div>
+                                }
+                            >
                                 <Route path="/orders" exact component={Orders} />
                                 <Route path="/checkout" component={Checkout} />
                             </Suspense>
