@@ -14,9 +14,9 @@
 }
 
 .InputElement:focus {
-    border: 1px solid rgba(211, 132, 67, 0.781);
+    border: 1px solid rgba(211, 132, 67, 0.493);
 }
 
-/* .InputElement:valid {
-    border: 1px solid #1fb41f;
-} */
+.Invalid {
+    border: 1px solid #e63b3b;
+}

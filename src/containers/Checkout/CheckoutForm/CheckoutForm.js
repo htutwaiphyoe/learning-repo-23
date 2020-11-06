@@ -23,6 +23,7 @@ class CheckoutForm extends Component {
                 },
                 value: "",
                 valid: false,
+                touch: false,
             },
             email: {
                 elementType: "input",
@@ -32,7 +33,11 @@ class CheckoutForm extends Component {
                     placeholder: "Your Email",
                     required: true,
                 },
+                validations: {
+                    required: true,
+                },
                 value: "",
+                valid: false,
             },
             phone: {
                 elementType: "input",
@@ -48,6 +53,7 @@ class CheckoutForm extends Component {
                 },
                 value: "",
                 valid: false,
+                touch: false,
             },
             address: {
                 elementType: "textarea",
@@ -63,6 +69,7 @@ class CheckoutForm extends Component {
                 },
                 value: "",
                 valid: false,
+                touch: false,
             },
             deliveryMethod: {
                 elementType: "select",
@@ -73,8 +80,11 @@ class CheckoutForm extends Component {
                     ],
                 },
                 value: "fastest",
+                validations: {},
+                valid: true,
             },
         },
+        valid: false,
         loading: false,
         error: null,
         success: false,
@@ -112,13 +122,14 @@ class CheckoutForm extends Component {
     };
     checkValidation = (value, rules) => {
         let isValid = true;
-        if (rules.required) {
+
+        if (rules?.required) {
             isValid = value.trim() !== "" && isValid;
         }
-        if (rules.minLength) {
+        if (rules?.minLength) {
             isValid = value.trim().length >= rules.minLength && isValid;
         }
-        if (rules.maxLength) {
+        if (rules?.maxLength) {
             isValid = value.trim().length <= rules.maxLength && isValid;
         }
         return isValid;
@@ -132,9 +143,13 @@ class CheckoutForm extends Component {
             updatedFormElement.value,
             updatedFormElement.validations
         );
-        console.log(updatedFormElement);
+        updatedFormElement.touch = true;
         updatedOrderForm[type] = updatedFormElement;
-        this.setState({ orderForm: updatedOrderForm });
+        let formValid = true;
+        for (let i in updatedOrderForm) {
+            formValid = formValid && updatedOrderForm[i].valid;
+        }
+        this.setState({ orderForm: updatedOrderForm, valid: formValid });
     };
     render() {
         const formInputs = [];
@@ -155,10 +170,15 @@ class CheckoutForm extends Component {
                             inputtype={input.config.elementType}
                             config={input.config.elementConfig}
                             value={input.config.value}
+                            invalid={!input.config.valid}
+                            validations={input.config.validations}
+                            touch={input.config.touch}
                             onInputChange={(e) => this.onInputChange(e, input.id)}
                         />
                     ))}
-                    <Button type="Success">Order</Button>
+                    <Button type="Success" disabled={!this.state.valid}>
+                        Order
+                    </Button>
                 </form>
             </React.Fragment>
         );
