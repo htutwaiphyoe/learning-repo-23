@@ -57,6 +57,7 @@ class CheckoutForm extends Component {
                         { value: "cheapest", displayValue: "Cheapest" },
                     ],
                 },
+                value: "fastest",
             },
         },
         loading: false,
@@ -91,38 +92,26 @@ class CheckoutForm extends Component {
         }
     };
     render() {
+        const formInputs = [];
+        for (let key in this.state.orderForm) {
+            formInputs.push({
+                id: key,
+                config: this.state.orderForm[key],
+            });
+        }
+
         let component = (
             <React.Fragment>
                 <h1>Fill your contact info</h1>
                 <form>
-                    <Input
-                        inputtype="input"
-                        type="text"
-                        name="name"
-                        placeholder="Your Name"
-                        required
-                    />
-                    <Input
-                        inputtype="input"
-                        type="email"
-                        name="email"
-                        placeholder="Your Email"
-                        required
-                    />
-                    <Input
-                        inputtype="input"
-                        type="number"
-                        name="phone"
-                        placeholder="Your Phone"
-                        required
-                    />
-                    <Input
-                        inputtype="textarea"
-                        name="address"
-                        placeholder="Your Address"
-                        required
-                        rows="5"
-                    />
+                    {formInputs.map((input) => (
+                        <Input
+                            key={input.id}
+                            inputtype={input.config.elementType}
+                            config={input.config.elementConfig}
+                            value={input.config.value}
+                        />
+                    ))}
                     <Button type="Success" onButtonClick={this.onOrderClick}>
                         Order
                     </Button>

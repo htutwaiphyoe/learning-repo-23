@@ -17,6 +17,6 @@
     border: 1px solid rgba(211, 132, 67, 0.781);
 }
 
-.InputElement:valid {
+/* .InputElement:valid {
     border: 1px solid #1fb41f;
-}
+} */

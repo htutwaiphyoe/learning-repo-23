@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./Order.module.css";
 const Order = (props) => {
     const { ingredients, price } = props.order;
+    console.log(ingredients);
     return (
         <div className={classes.Order}>
             <p>
