@@ -64,14 +64,18 @@ class CheckoutForm extends Component {
         error: null,
         success: false,
     };
-    onOrderClick = async (e) => {
+    onFormSubmit = async (e) => {
         e.preventDefault();
         try {
             this.setState({ loading: true });
+            const customer = {};
+            for (let key in this.state.orderForm) {
+                customer[key] = this.state.orderForm[key].value;
+            }
             await burgerbuilder.post("/orders.json", {
                 ingredients: this.props.ingredients,
                 price: this.props.price,
-                customer: this.state.orderForm,
+                customer,
             });
 
             this.setState({
@@ -92,9 +96,10 @@ class CheckoutForm extends Component {
         }
     };
     onInputChange = (e, type) => {
+        const value = e.target.value;
         const updatedOrderForm = { ...this.state.orderForm };
         const updatedFormElement = { ...updatedOrderForm[type] };
-        updatedFormElement.value = e.target.value;
+        updatedFormElement.value = value;
         updatedOrderForm[type] = updatedFormElement;
         this.setState({ orderForm: updatedOrderForm });
     };
@@ -110,7 +115,7 @@ class CheckoutForm extends Component {
         let component = (
             <React.Fragment>
                 <h1>Fill your contact info</h1>
-                <form>
+                <form onSubmit={this.onFormSubmit}>
                     {formInputs.map((input) => (
                         <Input
                             key={input.id}
@@ -120,9 +125,7 @@ class CheckoutForm extends Component {
                             onInputChange={(e) => this.onInputChange(e, input.id)}
                         />
                     ))}
-                    <Button type="Success" onButtonClick={this.onOrderClick}>
-                        Order
-                    </Button>
+                    <Button type="Success">Order</Button>
                 </form>
             </React.Fragment>
         );
