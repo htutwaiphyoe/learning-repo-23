@@ -17,11 +17,11 @@ class CheckoutForm extends Component {
                     placeholder: "Your Name",
                     required: true,
                 },
+                value: "",
                 validations: {
                     required: true,
                     minLength: 3,
                 },
-                value: "",
                 valid: false,
                 touch: false,
             },
@@ -33,11 +33,9 @@ class CheckoutForm extends Component {
                     placeholder: "Your Email",
                     required: true,
                 },
-                validations: {
-                    required: true,
-                },
                 value: "",
-                valid: false,
+                validations: {},
+                valid: true,
             },
             phone: {
                 elementType: "input",
@@ -47,11 +45,11 @@ class CheckoutForm extends Component {
                     placeholder: "Your Phone",
                     required: true,
                 },
-                validations: {
-                    minLength: 7,
-                    maxLength: 11,
-                },
                 value: "",
+                validations: {
+                    required: true,
+                    minLength: 10,
+                },
                 valid: false,
                 touch: false,
             },
@@ -63,11 +61,11 @@ class CheckoutForm extends Component {
                     rows: "5",
                     required: true,
                 },
+                value: "",
                 validations: {
                     required: true,
                     minLength: 5,
                 },
-                value: "",
                 valid: false,
                 touch: false,
             },
@@ -122,23 +120,18 @@ class CheckoutForm extends Component {
     };
     checkValidation = (value, rules) => {
         let isValid = true;
-
-        if (rules?.required) {
+        if (rules.required) {
             isValid = value.trim() !== "" && isValid;
         }
-        if (rules?.minLength) {
+        if (rules.minLength) {
             isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        if (rules?.maxLength) {
-            isValid = value.trim().length <= rules.maxLength && isValid;
         }
         return isValid;
     };
     onInputChange = (e, type) => {
-        const value = e.target.value;
         const updatedOrderForm = { ...this.state.orderForm };
         const updatedFormElement = { ...updatedOrderForm[type] };
-        updatedFormElement.value = value;
+        updatedFormElement.value = e.target.value;
         updatedFormElement.valid = this.checkValidation(
             updatedFormElement.value,
             updatedFormElement.validations
@@ -152,28 +145,26 @@ class CheckoutForm extends Component {
         this.setState({ orderForm: updatedOrderForm, valid: formValid });
     };
     render() {
-        const formInputs = [];
+        const formElements = [];
         for (let key in this.state.orderForm) {
-            formInputs.push({
+            formElements.push({
                 id: key,
                 config: this.state.orderForm[key],
             });
         }
-
         let component = (
             <React.Fragment>
                 <h1>Fill your contact info</h1>
                 <form onSubmit={this.onFormSubmit}>
-                    {formInputs.map((input) => (
+                    {formElements.map((e) => (
                         <Input
-                            key={input.id}
-                            inputtype={input.config.elementType}
-                            config={input.config.elementConfig}
-                            value={input.config.value}
-                            invalid={!input.config.valid}
-                            validations={input.config.validations}
-                            touch={input.config.touch}
-                            onInputChange={(e) => this.onInputChange(e, input.id)}
+                            key={e.id}
+                            type={e.config.elementType}
+                            config={e.config.elementConfig}
+                            value={e.config.value}
+                            invalid={!e.config.valid}
+                            touch={e.config.touch}
+                            onInputChange={(event) => this.onInputChange(event, e.id)}
                         />
                     ))}
                     <Button type="Success" disabled={!this.state.valid}>
