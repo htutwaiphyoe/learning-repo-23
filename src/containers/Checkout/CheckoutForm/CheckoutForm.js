@@ -17,7 +17,12 @@ class CheckoutForm extends Component {
                     placeholder: "Your Name",
                     required: true,
                 },
+                validations: {
+                    required: true,
+                    minLength: 3,
+                },
                 value: "",
+                valid: false,
             },
             email: {
                 elementType: "input",
@@ -37,7 +42,12 @@ class CheckoutForm extends Component {
                     placeholder: "Your Phone",
                     required: true,
                 },
+                validations: {
+                    minLength: 7,
+                    maxLength: 11,
+                },
                 value: "",
+                valid: false,
             },
             address: {
                 elementType: "textarea",
@@ -47,7 +57,12 @@ class CheckoutForm extends Component {
                     rows: "5",
                     required: true,
                 },
+                validations: {
+                    required: true,
+                    minLength: 5,
+                },
                 value: "",
+                valid: false,
             },
             deliveryMethod: {
                 elementType: "select",
@@ -95,11 +110,29 @@ class CheckoutForm extends Component {
             });
         }
     };
+    checkValidation = (value, rules) => {
+        let isValid = true;
+        if (rules.required) {
+            isValid = value.trim() !== "" && isValid;
+        }
+        if (rules.minLength) {
+            isValid = value.trim().length >= rules.minLength && isValid;
+        }
+        if (rules.maxLength) {
+            isValid = value.trim().length <= rules.maxLength && isValid;
+        }
+        return isValid;
+    };
     onInputChange = (e, type) => {
         const value = e.target.value;
         const updatedOrderForm = { ...this.state.orderForm };
         const updatedFormElement = { ...updatedOrderForm[type] };
         updatedFormElement.value = value;
+        updatedFormElement.valid = this.checkValidation(
+            updatedFormElement.value,
+            updatedFormElement.validations
+        );
+        console.log(updatedFormElement);
         updatedOrderForm[type] = updatedFormElement;
         this.setState({ orderForm: updatedOrderForm });
     };
