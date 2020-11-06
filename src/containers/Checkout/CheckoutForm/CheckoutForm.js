@@ -91,6 +91,13 @@ class CheckoutForm extends Component {
             });
         }
     };
+    onInputChange = (e, type) => {
+        const updatedOrderForm = { ...this.state.orderForm };
+        const updatedFormElement = { ...updatedOrderForm[type] };
+        updatedFormElement.value = e.target.value;
+        updatedOrderForm[type] = updatedFormElement;
+        this.setState({ orderForm: updatedOrderForm });
+    };
     render() {
         const formInputs = [];
         for (let key in this.state.orderForm) {
@@ -110,6 +117,7 @@ class CheckoutForm extends Component {
                             inputtype={input.config.elementType}
                             config={input.config.elementConfig}
                             value={input.config.value}
+                            onInputChange={(e) => this.onInputChange(e, input.id)}
                         />
                     ))}
                     <Button type="Success" onButtonClick={this.onOrderClick}>
