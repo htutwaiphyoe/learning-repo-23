@@ -4,8 +4,8 @@ const initialState = {
     ingredients: {
         Salad: 0,
         Bacon: 0,
-        Meat: 0,
         Cheese: 0,
+        Meat: 0,
     },
     price: 2,
 };
