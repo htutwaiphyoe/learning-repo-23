@@ -151,7 +151,7 @@ class CheckoutForm extends Component {
                 id: key,
                 config: this.state.orderForm[key],
             });
-        }
+        }   
         let component = (
             <React.Fragment>
                 <h1>Fill your contact info</h1>

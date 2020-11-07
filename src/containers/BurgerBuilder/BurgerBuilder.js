@@ -15,29 +15,27 @@ const INGREDIENT_PRICE = {
 };
 class BurgerBuilder extends React.Component {
     state = {
-        ingredients: null,
-        price: 2,
         purchasable: false,
         shownModal: false,
         loading: false,
         error: null,
     };
-    loadIngredients = async () => {
-        try {
-            const response = await burgerbuilder.get("/ingredients.json");
-            this.setState({ ingredients: response.data });
-        } catch (err) {
-            this.setState({
-                error: {
-                    type: "LOAD_INGREDIENTS",
-                    message: err.message,
-                },
-            });
-        }
-    };
-    componentDidMount() {
-        this.loadIngredients();
-    }
+    // loadIngredients = async () => {
+    //     try {
+    //         const response = await burgerbuilder.get("/ingredients.json");
+    //         this.setState({ ingredients: response.data });
+    //     } catch (err) {
+    //         this.setState({
+    //             error: {
+    //                 type: "LOAD_INGREDIENTS",
+    //                 message: err.message,
+    //             },
+    //         });
+    //     }
+    // };
+    // componentDidMount() {
+    //     this.loadIngredients();
+    // }
     onShowModalHandler = () => {
         this.setState((state, props) => {
             return {
