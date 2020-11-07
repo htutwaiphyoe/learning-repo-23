@@ -13,9 +13,21 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_INGREDIENT:
-            return {};
+            return {
+                ...state,
+                ingredients: {
+                    ...state.ingredients,
+                    [action.payload]: state.ingredients[action.payload] + 1,
+                },
+            };
         case actionTypes.REMOVE_INGREDIENT:
-            return {};
+            return {
+                ...state,
+                ingredients: {
+                    ...state.ingredients,
+                    [action.payload]: state.ingredients[action.payload] - 1,
+                },
+            };
         default:
             return state;
     }
