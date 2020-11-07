@@ -47,20 +47,7 @@ class BurgerBuilder extends React.Component {
         return sum === 0 ? false : true;
     };
     onContinueHandler = () => {
-        let queryParams = [];
-        // use encodeURIComponent to transform valid components for URLSearchParams
-        for (let i in this.props.ingredients) {
-            queryParams.push(
-                `${encodeURIComponent(i)}=${encodeURIComponent(this.props.ingredients[i])}`
-            );
-        }
-        queryParams.push(
-            `${encodeURIComponent("price")}=${encodeURIComponent(this.props.price.toFixed(2))}`
-        );
-        this.props.history.push({
-            pathname: "/checkout",
-            search: `?${queryParams.join("&")}`,
-        });
+        this.props.history.push("/checkout");
     };
     render() {
         let disabled = { ...this.props.ingredients };

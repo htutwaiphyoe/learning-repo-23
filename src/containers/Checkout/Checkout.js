@@ -1,27 +1,11 @@
 import React from "react";
 import { Route } from "react-router-dom";
+import { connect } from "react-redux";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
 import classes from "./Checkout.module.css";
 import Spinner from "../../components/UI/Spinner/Spinner";
 class Checkout extends React.Component {
-    state = {
-        ingredients: null,
-        price: 0,
-    };
-    componentDidMount() {
-        const query = new URLSearchParams(this.props.location.search);
-        const ingredients = {};
-        let price = 0;
-        for (let param of query.entries()) {
-            if (param[0] === "price") {
-                price = +param[1];
-            } else {
-                ingredients[param[0]] = +param[1];
-            }
-        }
-        this.setState({ ingredients, price });
-    }
     onCheckOutCancel = () => {
         this.props.history.replace("/");
     };
@@ -34,28 +18,25 @@ class Checkout extends React.Component {
                 <Spinner />
             </div>
         );
-        if (this.state.ingredients) {
+        if (this.props.ingredients) {
             component = (
                 <React.Fragment>
                     <CheckoutSummary
-                        ingredients={this.state.ingredients}
+                        ingredients={this.props.ingredients}
                         onCheckOutContinue={this.onCheckOutContinue}
                         onCheckOutCancel={this.onCheckOutCancel}
                     />
-                    <Route
-                        path={`${this.props.match.url}/form`}
-                        render={() => (
-                            <CheckoutForm
-                                ingredients={this.state.ingredients}
-                                price={this.state.price}
-                            />
-                        )}
-                    />
+                    <Route path={`${this.props.match.url}/form`} render={() => <CheckoutForm />} />
                 </React.Fragment>
             );
         }
         return <div>{component}</div>;
     }
 }
-
-export default Checkout;
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.burgerbuilder.ingredients,
+        price: state.burgerbuilder.price,
+    };
+};
+export default connect(mapStateToProps)(Checkout);

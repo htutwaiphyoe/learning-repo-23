@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import Button from "../../../components/UI/Button/Button";
 import burgerbuilder from "../../../api/burgerbuilder";
 import classes from "./CheckoutForm.module.css";
@@ -151,7 +152,7 @@ class CheckoutForm extends Component {
                 id: key,
                 config: this.state.orderForm[key],
             });
-        }   
+        }
         let component = (
             <React.Fragment>
                 <h1>Fill your contact info</h1>
@@ -185,5 +186,10 @@ class CheckoutForm extends Component {
         return <div className={classes.CheckoutForm}>{component}</div>;
     }
 }
-
-export default withRouter(CheckoutForm);
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.burgerbuilder.ingredients,
+        price: state.burgerbuilder.price,
+    };
+};
+export default connect(mapStateToProps)(withRouter(CheckoutForm));
