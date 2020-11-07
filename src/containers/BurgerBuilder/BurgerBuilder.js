@@ -39,10 +39,10 @@ class BurgerBuilder extends React.Component {
             };
         });
     };
-    purchasableHandler = (ingredients) => {
+    purchasableHandler = () => {
         let sum = 0;
-        for (let key of Object.keys(ingredients)) {
-            sum += ingredients[key];
+        for (let key of Object.keys(this.props.ingredients)) {
+            sum += this.props.ingredients[key];
         }
         return sum === 0 ? false : true;
     };
@@ -91,7 +91,7 @@ class BurgerBuilder extends React.Component {
                         onLessButtonClick={this.props.removeIngredient}
                         disabled={disabled}
                         price={this.props.price}
-                        purchasable={this.state.purchasable}
+                        purchasable={this.purchasableHandler()}
                         onShowModal={this.onShowModalHandler}
                     />
                 </React.Fragment>
