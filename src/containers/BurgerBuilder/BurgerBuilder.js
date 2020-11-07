@@ -8,12 +8,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from "./BurgerBuilder.module.css";
 import Message from "../../components/UI/Message/Message";
 import * as actionCreators from "../../store/actions";
-const INGREDIENT_PRICE = {
-    Salad: 0.4,
-    Bacon: 0.7,
-    Cheese: 0.5,
-    Meat: 1.5,
-};
+
 class BurgerBuilder extends React.Component {
     state = {
         purchasable: false,
@@ -50,30 +45,6 @@ class BurgerBuilder extends React.Component {
             sum += ingredients[key];
         }
         return sum === 0 ? false : true;
-    };
-    onMoreButtonClick = (type) => {
-        this.props.addIngredient(type);
-        // const oldPrice = this.state.price;
-        // const price = oldPrice + INGREDIENT_PRICE[type];
-        // this.setState({
-        //     ingredients,
-        //     price,
-        //     purchasable: this.purchasableHandler(ingredients),
-        // });
-    };
-    onLessButtonClick = (type) => {
-        this.props.removeIngredient(type);
-        // const ingredients = { ...this.state.ingredients };
-        // if (ingredients[type] > 0) {
-        //     ingredients[type] -= 1;
-        //     const oldPrice = this.state.price;
-        //     const price = oldPrice - INGREDIENT_PRICE[type];
-        //     this.setState({
-        //         ingredients,
-        //         price,
-        //         purchasable: this.purchasableHandler(ingredients),
-        //     });
-        // }
     };
     onContinueHandler = () => {
         let queryParams = [];
@@ -116,8 +87,8 @@ class BurgerBuilder extends React.Component {
                 <React.Fragment>
                     <Burger ingredients={this.props.ingredients} />
                     <BurgerControls
-                        onMoreButtonClick={this.onMoreButtonClick}
-                        onLessButtonClick={this.onLessButtonClick}
+                        onMoreButtonClick={this.props.addIngredient}
+                        onLessButtonClick={this.props.removeIngredient}
                         disabled={disabled}
                         price={this.props.price}
                         purchasable={this.state.purchasable}
