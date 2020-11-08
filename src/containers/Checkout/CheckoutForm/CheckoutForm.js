@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Button from "../../../components/UI/Button/Button";
-import burgerbuilder from "../../../api/burgerbuilder";
 import classes from "./CheckoutForm.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Message from "../../../components/UI/Message/Message";
 import Input from "../../../components/UI/Input/Input";
+import * as actionCreators from "../../../store/actions";
 class CheckoutForm extends Component {
     state = {
         orderForm: {
@@ -84,40 +84,21 @@ class CheckoutForm extends Component {
             },
         },
         valid: false,
-        loading: false,
-        error: null,
-        success: false,
     };
     onFormSubmit = async (e) => {
         e.preventDefault();
-        try {
-            this.setState({ loading: true });
-            const customer = {};
-            for (let key in this.state.orderForm) {
-                customer[key] = this.state.orderForm[key].value;
-            }
-            await burgerbuilder.post("/orders.json", {
+        const customer = {};
+        for (let key in this.state.orderForm) {
+            customer[key] = this.state.orderForm[key].value;
+        }
+        this.props.submitForm(
+            {
                 ingredients: this.props.ingredients,
                 price: this.props.price,
                 customer,
-            });
-
-            this.setState({
-                loading: false,
-                success: true,
-            });
-            setTimeout(() => {
-                this.props.history.replace("/");
-            }, 1000);
-        } catch (err) {
-            this.setState({
-                loading: false,
-                error: {
-                    type: "POST_ORDER",
-                    message: err.message,
-                },
-            });
-        }
+            },
+            this.props.history
+        );
     };
     checkValidation = (value, rules) => {
         let isValid = true;
@@ -174,13 +155,13 @@ class CheckoutForm extends Component {
                 </form>
             </React.Fragment>
         );
-        if (this.state.loading) {
+        if (this.props.loading) {
             component = <Spinner />;
         }
-        if (this.state.error) {
-            component = <Message type="Error">{this.state.error.message}</Message>;
+        if (this.props.error) {
+            component = <Message type="Error">{this.props.error}</Message>;
         }
-        if (this.state.success) {
+        if (this.props.success) {
             component = <Message type="Success">Your order successfully completed</Message>;
         }
         return <div className={classes.CheckoutForm}>{component}</div>;
@@ -190,6 +171,12 @@ const mapStateToProps = (state) => {
     return {
         ingredients: state.burgerbuilder.ingredients,
         price: state.burgerbuilder.price,
+        loading: state.form.loading,
+        error: state.form.error,
+        success: state.form.success,
     };
 };
-export default connect(mapStateToProps)(withRouter(CheckoutForm));
+const mapDispatchToProps = {
+    submitForm: actionCreators.submitForm,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CheckoutForm));

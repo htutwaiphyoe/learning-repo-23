@@ -1,10 +1,9 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
 import classes from "./Checkout.module.css";
-import Spinner from "../../components/UI/Spinner/Spinner";
 class Checkout extends React.Component {
     onCheckOutCancel = () => {
         this.props.history.replace("/");
@@ -15,7 +14,7 @@ class Checkout extends React.Component {
     render() {
         let component = (
             <div className={classes.Checkout}>
-                <Spinner />
+                <Redirect to="/" />
             </div>
         );
         if (this.props.ingredients) {

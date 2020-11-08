@@ -16,7 +16,13 @@ const reducer = (state = initialState, action) => {
         case actionTypes.INIT_INGREDIENTS:
             return {
                 ...state,
-                ingredients: action.payload,
+                ingredients: {
+                    Salad: action.payload.Salad,
+                    Bacon: action.payload.Bacon,
+                    Cheese: action.payload.Cheese,
+                    Meat: action.payload.Meat,
+                },
+                price: 2,
             };
         case actionTypes.ADD_INGREDIENT:
             return {
@@ -36,7 +42,7 @@ const reducer = (state = initialState, action) => {
                 },
                 price: state.price - INGREDIENT_PRICE[action.payload],
             };
-        case actionTypes.ERROR:
+        case actionTypes.INIT_FAIL:
             return {
                 ...state,
                 error: action.payload,
