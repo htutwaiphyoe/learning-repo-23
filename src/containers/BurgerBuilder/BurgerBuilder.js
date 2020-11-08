@@ -13,7 +13,6 @@ class BurgerBuilder extends React.Component {
     state = {
         purchasable: false,
         shownModal: false,
-        loading: false,
     };
     componentDidMount() {
         this.props.initIngredients();
@@ -41,11 +40,7 @@ class BurgerBuilder extends React.Component {
             disabled[key] = disabled[key] <= 0;
         }
         let orderSummary = null;
-        let burgerbuilder = (
-            <div className={classes.BurgerBuilder}>
-                <Spinner />
-            </div>
-        );
+        let burgerbuilder = null;
         if (this.props.ingredients) {
             orderSummary = (
                 <OrderSummary
@@ -70,8 +65,12 @@ class BurgerBuilder extends React.Component {
                 </React.Fragment>
             );
         }
-        if (this.state.loading) {
-            orderSummary = <Spinner />;
+        if (this.props.loading) {
+            burgerbuilder = (
+                <div className={classes.BurgerBuilder}>
+                    <Spinner />
+                </div>
+            );
         }
         if (this.props.error) {
             burgerbuilder = (
@@ -96,6 +95,7 @@ const mapStateToProps = (state) => {
         ingredients: state.burgerbuilder.ingredients,
         price: state.burgerbuilder.price,
         error: state.burgerbuilder.error,
+        loading: state.burgerbuilder.loading,
     };
 };
 const mapDispatchToProps = {

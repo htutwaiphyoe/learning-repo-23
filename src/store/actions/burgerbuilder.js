@@ -20,8 +20,14 @@ export const showError = (payload) => {
         payload,
     };
 };
+export const showLoading = () => {
+    return {
+        type: actionTypes.SHOW_LOADING,
+    };
+};
 export const initIngredients = () => async (dispatch) => {
     try {
+        dispatch(showLoading());
         const response = await burgerbuilder.get("/ingredients.json");
         dispatch({ type: actionTypes.INIT_INGREDIENTS, payload: response.data });
     } catch (err) {

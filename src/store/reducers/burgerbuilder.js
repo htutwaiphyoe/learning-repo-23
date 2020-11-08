@@ -4,6 +4,7 @@ const initialState = {
     ingredients: null,
     price: 2,
     error: null,
+    loading: false,
 };
 const INGREDIENT_PRICE = {
     Salad: 0.4,
@@ -23,6 +24,7 @@ const reducer = (state = initialState, action) => {
                     Meat: action.payload.Meat,
                 },
                 price: 2,
+                loading: false,
             };
         case actionTypes.ADD_INGREDIENT:
             return {
@@ -46,6 +48,12 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: action.payload,
+                loading: false,
+            };
+        case actionTypes.SHOW_LOADING:
+            return {
+                ...state,
+                loading: true,
             };
         default:
             return state;
