@@ -50,7 +50,7 @@ const reducer = (state = initialState, action) => {
                 error: action.payload,
                 loading: false,
             };
-        case actionTypes.SHOW_LOADING:
+        case actionTypes.SHOW_BURGERBUILDER_LOADING:
             return {
                 ...state,
                 loading: true,

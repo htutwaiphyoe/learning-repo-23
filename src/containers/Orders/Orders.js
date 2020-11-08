@@ -1,44 +1,29 @@
 import React from "react";
-import burgerbuilder from "../../api/burgerbuilder";
+import { connect } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Message from "../../components/UI/Message/Message";
 import Order from "../../components/Order/Order";
 import classes from "./Orders.module.css";
-
+import * as actionCreators from "../../store/actions";
 class Orders extends React.Component {
-    state = {
-        orders: [],
-        loading: false,
-        error: false,
-    };
     componentDidMount() {
-        this.getOrders();
+        this.props.fetchOrders();
     }
-    getOrders = async () => {
-        try {
-            this.setState({ loading: true });
-            const response = await burgerbuilder.get("/orders.json");
-            let orders = [];
-            for (let i in response.data) {
-                orders.push({ id: i, ...response.data[i] });
-            }
 
-            this.setState({ orders, loading: false });
-        } catch (err) {
-            this.setState({ loading: false, error: err.message });
-        }
-    };
     show() {
-        let components = this.state.orders.map((order) => <Order order={order} key={order.id} />);
-        if (this.state.loading) {
+        let components = this.props.orders.map((order) => <Order order={order} key={order.id} />);
+        if (this.props.orders.length === 0) {
+            components = <Message type="Normal">No Orders</Message>;
+        }
+        if (this.props.loading) {
             components = (
                 <div className={classes.Orders}>
                     <Spinner />
                 </div>
             );
         }
-        if (this.state.error) {
-            components = <Message type="Error">{this.state.error}</Message>;
+        if (this.props.error) {
+            components = <Message type="Error">{this.props.error}</Message>;
         }
         return components;
     }
@@ -46,5 +31,14 @@ class Orders extends React.Component {
         return <div>{this.show()}</div>;
     }
 }
-
-export default Orders;
+const mapStateToProps = (state) => {
+    return {
+        orders: state.orders.orders,
+        error: state.orders.error,
+        loading: state.orders.loading,
+    };
+};
+const mapDispatchToProps = {
+    fetchOrders: actionCreators.fetchOrders,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);

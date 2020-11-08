@@ -3,10 +3,15 @@ export const ADD_INGREDIENT = "ADD_INGREDIENT";
 export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
 export const INIT_INGREDIENTS = "INIT_INGREDIENTS";
 export const INIT_FAIL = "INIT_FAIL";
-export const SHOW_LOADING = "SHOW_LOADING";
+export const SHOW_BURGERBUILDER_LOADING = "SHOW_BURGERBUILDER_LOADING";
 
-// Order
+// Checkform
 export const SUCCESS_FORM = "SUCCESS_FORM";
 export const FAIL_FORM = "FAIL_FORM";
 export const LOAD_FORM = "LOAD_FORM";
 export const END_SUCCESS = "END_SUCCESS";
+
+// Orders
+export const FETCH_ORDERS = "FETCH_ORDERS";
+export const FAIL_ORDERS = "FAIL_ORDERS";
+export const SHOW_ORDER_LOADING = "SHOW_ORDER_LOADING";

@@ -10,3 +10,9 @@
     text-align: center;
     color: rgb(47, 175, 42);
 }
+.Normal {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: bold;
+    color: rgb(56, 56, 56);
+}
