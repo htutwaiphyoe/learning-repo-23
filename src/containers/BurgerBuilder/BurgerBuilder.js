@@ -16,22 +16,9 @@ class BurgerBuilder extends React.Component {
         loading: false,
         error: null,
     };
-    // loadIngredients = async () => {
-    //     try {
-    //         const response = await burgerbuilder.get("/ingredients.json");
-    //         this.setState({ ingredients: response.data });
-    //     } catch (err) {
-    //         this.setState({
-    //             error: {
-    //                 type: "LOAD_INGREDIENTS",
-    //                 message: err.message,
-    //             },
-    //         });
-    //     }
-    // };
-    // componentDidMount() {
-    //     this.loadIngredients();
-    // }
+    componentDidMount() {
+        this.props.initIngredients();
+    }
     onShowModalHandler = () => {
         this.setState((state, props) => {
             return {
@@ -114,5 +101,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     addIngredient: actionCreators.addIngredient,
     removeIngredient: actionCreators.removeIngredient,
+    initIngredients: actionCreators.initIngredients,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
