@@ -1,5 +1,5 @@
 import * as actionTypes from "../actions/actionTypes";
-
+import { updateObject } from "../utility";
 const initialState = {
     ingredients: null,
     price: 2,
@@ -12,49 +12,53 @@ const INGREDIENT_PRICE = {
     Cheese: 0.5,
     Meat: 1.5,
 };
+
+const initIngredients = (state, action) => {
+    return {
+        ...state,
+        ingredients: {
+            Salad: action.payload.Salad,
+            Bacon: action.payload.Bacon,
+            Cheese: action.payload.Cheese,
+            Meat: action.payload.Meat,
+        },
+        price: 2,
+        loading: false,
+    };
+};
+const addIngredient = (state, action) => {
+    return {
+        ...state,
+        ingredients: {
+            ...state.ingredients,
+            [action.payload]: state.ingredients[action.payload] + 1,
+        },
+        price: state.price + INGREDIENT_PRICE[action.payload],
+    };
+};
+
+const removeIngredient = (state, action) => {
+    return {
+        ...state,
+        ingredients: {
+            ...state.ingredients,
+            [action.payload]: state.ingredients[action.payload] - 1,
+        },
+        price: state.price - INGREDIENT_PRICE[action.payload],
+    };
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INIT_INGREDIENTS:
-            return {
-                ...state,
-                ingredients: {
-                    Salad: action.payload.Salad,
-                    Bacon: action.payload.Bacon,
-                    Cheese: action.payload.Cheese,
-                    Meat: action.payload.Meat,
-                },
-                price: 2,
-                loading: false,
-            };
+            return initIngredients(state, action);
         case actionTypes.ADD_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.payload]: state.ingredients[action.payload] + 1,
-                },
-                price: state.price + INGREDIENT_PRICE[action.payload],
-            };
+            return addIngredient(state, action);
         case actionTypes.REMOVE_INGREDIENT:
-            return {
-                ...state,
-                ingredients: {
-                    ...state.ingredients,
-                    [action.payload]: state.ingredients[action.payload] - 1,
-                },
-                price: state.price - INGREDIENT_PRICE[action.payload],
-            };
+            return removeIngredient(state, action);
         case actionTypes.INIT_FAIL:
-            return {
-                ...state,
-                error: action.payload,
-                loading: false,
-            };
+            return updateObject(state, { error: action.payload, loading: false });
         case actionTypes.SHOW_BURGERBUILDER_LOADING:
-            return {
-                ...state,
-                loading: true,
-            };
+            return updateObject(state, { loading: true });
         default:
             return state;
     }
