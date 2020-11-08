@@ -20,23 +20,21 @@ export const loadForm = () => {
     };
 };
 
-export const unloadForm = () => {
+export const endSuccess = () => {
     return {
-        type: actionTypes.UNLOAD_FORM,
+        type: actionTypes.END_SUCCESS,
     };
 };
 export const submitForm = (payload, history) => async (dispatch) => {
     try {
         dispatch(loadForm());
         await burgerbuilder.post("/orders.json", payload);
-
-        dispatch(unloadForm());
         dispatch(successForm());
         setTimeout(() => {
+            dispatch(endSuccess());
             history.push("/");
         }, 2000);
     } catch (err) {
-        dispatch(unloadForm());
         dispatch(failForm(err.message));
     }
 };

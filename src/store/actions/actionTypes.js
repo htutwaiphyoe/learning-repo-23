@@ -8,4 +8,4 @@ export const INIT_FAIL = "INIT_FAIL";
 export const SUCCESS_FORM = "SUCCESS_FORM";
 export const FAIL_FORM = "FAIL_FORM";
 export const LOAD_FORM = "LOAD_FORM";
-export const UNLOAD_FORM = "UNLOAD_FORM";
+export const END_SUCCESS = "END_SUCCESS";
