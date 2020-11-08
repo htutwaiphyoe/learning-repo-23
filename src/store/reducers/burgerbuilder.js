@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
     ingredients: null,
     price: 2,
+    error: null,
 };
 const INGREDIENT_PRICE = {
     Salad: 0.4,
@@ -34,6 +35,11 @@ const reducer = (state = initialState, action) => {
                     [action.payload]: state.ingredients[action.payload] - 1,
                 },
                 price: state.price - INGREDIENT_PRICE[action.payload],
+            };
+        case actionTypes.ERROR:
+            return {
+                ...state,
+                error: action.payload,
             };
         default:
             return state;

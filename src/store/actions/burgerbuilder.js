@@ -14,7 +14,17 @@ export const removeIngredient = (payload) => {
     };
 };
 
+export const error = (payload) => {
+    return {
+        type: actionTypes.ERROR,
+        payload,
+    };
+};
 export const initIngredients = () => async (dispatch) => {
-    const response = await burgerbuilder.get("/ingredients.json");
-    dispatch({ type: actionTypes.INIT_INGREDIENTS, payload: response.data });
+    try {
+        const response = await burgerbuilder.get("/ingredients.json");
+        dispatch({ type: actionTypes.INIT_INGREDIENTS, payload: response.data });
+    } catch (err) {
+        dispatch({ type: actionTypes.ERROR, payload: err.message });
+    }
 };

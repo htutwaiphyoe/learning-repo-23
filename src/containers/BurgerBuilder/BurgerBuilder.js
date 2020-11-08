@@ -14,7 +14,6 @@ class BurgerBuilder extends React.Component {
         purchasable: false,
         shownModal: false,
         loading: false,
-        error: null,
     };
     componentDidMount() {
         this.props.initIngredients();
@@ -74,10 +73,10 @@ class BurgerBuilder extends React.Component {
         if (this.state.loading) {
             orderSummary = <Spinner />;
         }
-        if (this.state.error) {
+        if (this.props.error) {
             burgerbuilder = (
                 <div className={classes.BurgerBuilder}>
-                    <Message type="Error">{this.state.error.message}</Message>
+                    <Message type="Error">{this.props.error}</Message>
                 </div>
             );
         }
@@ -96,6 +95,7 @@ const mapStateToProps = (state) => {
     return {
         ingredients: state.burgerbuilder.ingredients,
         price: state.burgerbuilder.price,
+        error: state.burgerbuilder.error,
     };
 };
 const mapDispatchToProps = {
