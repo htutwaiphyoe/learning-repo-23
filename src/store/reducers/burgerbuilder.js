@@ -14,8 +14,7 @@ const INGREDIENT_PRICE = {
 };
 
 const initIngredients = (state, action) => {
-    return {
-        ...state,
+    return updateObject(state, {
         ingredients: {
             Salad: action.payload.Salad,
             Bacon: action.payload.Bacon,
@@ -24,28 +23,26 @@ const initIngredients = (state, action) => {
         },
         price: 2,
         loading: false,
-    };
+    });
 };
 const addIngredient = (state, action) => {
-    return {
-        ...state,
+    return updateObject(state, {
         ingredients: {
             ...state.ingredients,
             [action.payload]: state.ingredients[action.payload] + 1,
         },
         price: state.price + INGREDIENT_PRICE[action.payload],
-    };
+    });
 };
 
 const removeIngredient = (state, action) => {
-    return {
-        ...state,
+    return updateObject(state, {
         ingredients: {
             ...state.ingredients,
             [action.payload]: state.ingredients[action.payload] - 1,
         },
         price: state.price - INGREDIENT_PRICE[action.payload],
-    };
+    });
 };
 const reducer = (state = initialState, action) => {
     switch (action.type) {
