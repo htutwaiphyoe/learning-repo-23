@@ -13,7 +13,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOAD_FORM:
             return updateObject(state, { loading: true });
         case actionTypes.SUCCESS_FORM:
-            return updateObject(state, { success: true, loading: false });
+            return updateObject(state, { success: true, loading: false, error: null });
         case actionTypes.END_SUCCESS:
             return updateObject(state, { success: false });
         default:

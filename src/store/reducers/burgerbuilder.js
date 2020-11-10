@@ -23,6 +23,7 @@ const initIngredients = (state, action) => {
         },
         price: 2,
         loading: false,
+        error: null,
     });
 };
 const addIngredient = (state, action) => {

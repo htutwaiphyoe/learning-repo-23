@@ -15,3 +15,8 @@ export const END_SUCCESS = "END_SUCCESS";
 export const FETCH_ORDERS = "FETCH_ORDERS";
 export const FAIL_ORDERS = "FAIL_ORDERS";
 export const SHOW_ORDER_LOADING = "SHOW_ORDER_LOADING";
+
+// Auth
+export const SHOW_AUTH_LOADING = "SHOW_AUTH_LOADING";
+export const SHOW_ERROR = "SHOW_ERROR";
+export const STORE_AUTH_DATA = "STORE_AUTH_DATA";
