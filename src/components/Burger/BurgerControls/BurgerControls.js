@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import classes from "./BurgerControls.module.css";
 import BurgerControl from "./BurgerControl/BurgerControl";
 import PropTypes from "prop-types";
@@ -14,6 +15,10 @@ const BurgerControls = (props) => {
             disabled={props.disabled[control]}
         />
     ));
+    const redirectSignUp = () => {
+        props.history.push("/auth");
+    };
+
     return (
         <div className={classes.BurgerControls}>
             <p>Current price: ${props.price.toFixed(2)}</p>
@@ -21,10 +26,11 @@ const BurgerControls = (props) => {
             <button
                 className={classes.OrderButton}
                 disabled={!props.purchasable}
-                onClick={props.onShowModal}
+                onClick={props.isAuth ? props.onShowModal : redirectSignUp}
             >
-                Order Now
+                {props.isAuth ? "Order Now" : "Sign In to Order"}
             </button>
+            );
         </div>
     );
 };
@@ -38,4 +44,4 @@ BurgerControls.propTypes = {
     disabled: PropTypes.object.isRequired,
 };
 
-export default BurgerControls;
+export default withRouter(BurgerControls);

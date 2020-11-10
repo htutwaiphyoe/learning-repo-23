@@ -61,6 +61,7 @@ class BurgerBuilder extends React.Component {
                         price={this.props.price}
                         purchasable={this.purchasableHandler()}
                         onShowModal={this.onShowModalHandler}
+                        isAuth={this.props.token}
                     />
                 </React.Fragment>
             );
@@ -96,6 +97,7 @@ const mapStateToProps = (state) => {
         price: state.burgerbuilder.price,
         error: state.burgerbuilder.error,
         loading: state.burgerbuilder.loading,
+        token: state.auth.token !== null,
     };
 };
 const mapDispatchToProps = {
