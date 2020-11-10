@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import Spinner from "../components/UI/Spinner/Spinner";
 const Checkout = React.lazy(() => import("./Checkout/Checkout"));
 const Orders = React.lazy(() => import("./Orders/Orders"));
+const Auth = React.lazy(() => import("./Auth/Auth"));
 class App extends React.Component {
     render() {
         return (
@@ -24,6 +25,7 @@ class App extends React.Component {
                             >
                                 <Route path="/orders" exact component={Orders} />
                                 <Route path="/checkout" component={Checkout} />
+                                <Route path="/auth" component={Auth} />
                             </Suspense>
                         </Switch>
                     </Layout>

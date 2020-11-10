@@ -24,3 +24,13 @@
 -   Orders
 -   Authentication
 -   Testing
+
+
+# to undo a git push
+git push -f origin HEAD^:master
+
+# to get to previous commit (preserves working tree)
+git reset --soft HEAD
+
+# to get back to previous commit (you'll lose working tree)
+git reset --hard HEAD^

@@ -13,10 +13,6 @@
     width: 100%;
 }
 
-.InputElement:focus {
-    border: 1px solid rgba(211, 132, 67, 0.493);
-}
-
 .Invalid {
     border: 1px solid #e63b3b;
 }
