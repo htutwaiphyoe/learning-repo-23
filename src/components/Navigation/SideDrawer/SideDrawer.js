@@ -9,6 +9,7 @@ const SideDrawer = (props) => {
                 className={`${classes.SideDrawer} ${
                     props.shownSideDrawer ? classes.Open : classes.Close
                 }`}
+                onClick={props.onClickHandler}
             >
                 <nav>
                     <NavigationItems />
