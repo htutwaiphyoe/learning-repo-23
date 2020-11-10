@@ -15,6 +15,10 @@ const successAuth = (state, action) => {
         user: { id: action.payload.localId, email: action.payload.email },
     });
 };
+
+const logout = (state, action) => {
+    return updateObject(state, { token: null, user: null });
+};
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SHOW_AUTH_LOADING:
@@ -23,6 +27,8 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { error: action.payload, loading: false });
         case actionTypes.SUCCESS_AUTH:
             return successAuth(state, action);
+        case actionTypes.LOGOUT:
+            return logout(state, action);
         default:
             return state;
     }

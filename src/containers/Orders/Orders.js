@@ -7,7 +7,7 @@ import classes from "./Orders.module.css";
 import * as actionCreators from "../../store/actions";
 class Orders extends React.Component {
     componentDidMount() {
-        this.props.fetchOrders();
+        this.props.fetchOrders(this.props.token);
     }
 
     show() {
@@ -36,6 +36,7 @@ const mapStateToProps = (state) => {
         orders: state.orders.orders,
         error: state.orders.error,
         loading: state.orders.loading,
+        token: state.auth.token,
     };
 };
 const mapDispatchToProps = {

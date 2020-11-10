@@ -85,9 +85,14 @@ class Auth extends React.Component {
                 config: this.state.authForm[key],
             });
         }
+        let error = null;
+        if (this.props.error) {
+            error = <p className={classes.Error}>{this.props.error.message}</p>;
+        }
         let component = (
             <React.Fragment>
                 <h1>Sign {this.state.isSignUp ? "Up" : "In"} Here</h1>
+                {error}
                 <form onSubmit={this.onFormSubmit}>
                     {formElements.map((e) => (
                         <Input

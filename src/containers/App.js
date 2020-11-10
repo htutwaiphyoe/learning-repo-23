@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 import "./App.css";
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
@@ -35,4 +36,9 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        token: state.auth.token,
+    };
+};
+export default connect(mapStateToProps)(App);

@@ -25,10 +25,10 @@ export const endSuccess = () => {
         type: actionTypes.END_SUCCESS,
     };
 };
-export const submitForm = (payload, history) => async (dispatch) => {
+export const submitForm = (payload, history, token) => async (dispatch) => {
     try {
         dispatch(loadForm());
-        await burgerbuilder.post("/orders.json", payload);
+        await burgerbuilder.post("/orders.json?auth=" + token, payload);
         dispatch(successForm());
         setTimeout(() => {
             dispatch(endSuccess());

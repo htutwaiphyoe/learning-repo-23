@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import classes from "./NavigationItems.module.css";
 import NavigationItem from "./NavigationItem/NavigationItem";
+
 const NavigationItems = (props) => {
     return (
         <ul className={classes.NavigationItems}>
@@ -14,5 +16,9 @@ const NavigationItems = (props) => {
         </ul>
     );
 };
-
-export default NavigationItems;
+const mapStateToProps = (state) => {
+    return {
+        token: state.auth.token,
+    }
+}
+export default connect(mapStateToProps)(NavigationItems);

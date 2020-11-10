@@ -19,6 +19,17 @@ export const successAuth = (payload) => {
     };
 };
 
+export const logout = () => {
+    return {
+        type: actionTypes.LOGOUT,
+    };
+};
+
+export const expireAuth = (expiresIn) => (dispatch) => {
+    setTimeout(() => {
+        dispatch(logout());
+    }, expiresIn * 1000);
+};
 export const auth = (email, password, isSignUp) => async (dispatch) => {
     try {
         dispatch(showAuthLoading());
@@ -33,8 +44,9 @@ export const auth = (email, password, isSignUp) => async (dispatch) => {
             password,
             returnSecureToken: true,
         });
-        console.log(response.data);
         dispatch(successAuth(response.data));
+        console.log(response.data);
+        dispatch(expireAuth(response.data.expiresIn));
     } catch (err) {
         dispatch(showError(err.response.data.error));
     }

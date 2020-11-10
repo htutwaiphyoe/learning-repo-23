@@ -97,7 +97,8 @@ class CheckoutForm extends Component {
                 price: this.props.price,
                 customer,
             },
-            this.props.history
+            this.props.history,
+            this.props.token
         );
     };
     checkValidation = (value, rules) => {
@@ -174,6 +175,7 @@ const mapStateToProps = (state) => {
         loading: state.form.loading,
         error: state.form.error,
         success: state.form.success,
+        token: state.auth.token,
     };
 };
 const mapDispatchToProps = {

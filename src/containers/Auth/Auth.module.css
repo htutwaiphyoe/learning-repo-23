@@ -14,6 +14,9 @@
     color: #d47720;
     cursor: pointer;
 }
+.Error {
+    color: rgb(224, 58, 58) !important;
+}
 @media only screen and (min-width: 600px) {
     .Auth {
         width: 50rem;
