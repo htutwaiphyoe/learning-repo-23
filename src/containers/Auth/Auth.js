@@ -119,6 +119,7 @@ class Auth extends React.Component {
 const mapStateToProps = (state) => {
     return {
         loading: state.auth.loading,
+        error: state.auth.error,
     };
 };
 const mapDispatchToProps = {

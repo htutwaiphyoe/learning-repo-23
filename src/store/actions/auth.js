@@ -12,6 +12,12 @@ export const showError = (payload) => {
         payload,
     };
 };
+export const successAuth = (payload) => {
+    return {
+        type: actionTypes.SUCCESS_AUTH,
+        payload,
+    };
+};
 
 export const auth = (email, password, isSignUp) => async (dispatch) => {
     try {
@@ -28,6 +34,7 @@ export const auth = (email, password, isSignUp) => async (dispatch) => {
             returnSecureToken: true,
         });
         console.log(response.data);
+        dispatch(successAuth(response.data));
     } catch (err) {
         dispatch(showError(err.response.data.error));
     }

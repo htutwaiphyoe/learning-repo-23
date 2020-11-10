@@ -19,4 +19,4 @@ export const SHOW_ORDER_LOADING = "SHOW_ORDER_LOADING";
 // Auth
 export const SHOW_AUTH_LOADING = "SHOW_AUTH_LOADING";
 export const SHOW_ERROR = "SHOW_ERROR";
-export const STORE_AUTH_DATA = "STORE_AUTH_DATA";
+export const SUCCESS_AUTH = "SUCCESS_AUTH";
