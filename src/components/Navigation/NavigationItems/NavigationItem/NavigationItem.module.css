@@ -14,12 +14,13 @@
     text-align: center;
     font-size: 1.6rem;
     background-color: #703b09;
+    border-bottom: 5px solid transparent;
 }
 
 .NavigationItem a:hover,
-.NavigationItem a:active, 
+.NavigationItem a:active,
 .NavigationItem a.active {
-    background-color: #d3770d;
+    border-bottom: 5px solid #7700ff;
 }
 
 @media only screen and (min-width: 576px) {

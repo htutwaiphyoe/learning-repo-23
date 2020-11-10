@@ -45,7 +45,6 @@ export const auth = (email, password, isSignUp) => async (dispatch) => {
             returnSecureToken: true,
         });
         dispatch(successAuth(response.data));
-        console.log(response.data);
         dispatch(expireAuth(response.data.expiresIn));
     } catch (err) {
         dispatch(showError(err.response.data.error));
