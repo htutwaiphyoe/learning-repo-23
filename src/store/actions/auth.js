@@ -73,7 +73,6 @@ export const checkLocalstorage = () => (dispatch) => {
         const expiresIn = new Date(localStorage.getItem("burgerbuilder-token-expiresIn"));
 
         if (new Date() > expiresIn) {
-            console.log("ok");
             dispatch(logout());
         } else {
             dispatch(successAuth({ idToken: token, localId: user.id, email: user.email }));
@@ -81,3 +80,4 @@ export const checkLocalstorage = () => (dispatch) => {
         }
     }
 };
+ 

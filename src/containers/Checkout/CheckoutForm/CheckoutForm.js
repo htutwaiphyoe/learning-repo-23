@@ -34,7 +34,7 @@ class CheckoutForm extends Component {
                     placeholder: "Your Email",
                     required: true,
                 },
-                value: "",
+                value: this.props.email,
                 validations: {},
                 valid: true,
             },
@@ -96,6 +96,7 @@ class CheckoutForm extends Component {
                 ingredients: this.props.ingredients,
                 price: this.props.price,
                 customer,
+                userid: this.props.userid,
             },
             this.props.history,
             this.props.token
@@ -176,6 +177,8 @@ const mapStateToProps = (state) => {
         error: state.form.error,
         success: state.form.success,
         token: state.auth.token,
+        userid: state.auth.user.id,
+        email: state.auth.user.email,
     };
 };
 const mapDispatchToProps = {

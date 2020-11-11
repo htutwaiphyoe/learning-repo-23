@@ -20,10 +20,12 @@ const showOrderLoading = () => {
         type: actionTypes.SHOW_ORDER_LOADING,
     };
 };
-export const fetchOrders = (token) => async (dispatch) => {
+export const fetchOrders = (token, userid) => async (dispatch) => {
     try {
         dispatch(showOrderLoading());
-        const response = await burgerbuilder.get("/orders.json?auth=" + token);
+        const response = await burgerbuilder.get(
+            `/orders.json?auth=${token}&orderBy="userid"&equalTo="${userid}"`
+        );
         let orders = [];
         for (let i in response.data) {
             orders.push({ id: i, ...response.data[i] });

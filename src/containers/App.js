@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import "./App.css";
 import Layout from "./Layout/Layout";
@@ -16,25 +16,42 @@ class App extends React.Component {
         this.props.checkLocalstorage();
     }
     render() {
+        let routes = (
+            <Suspense
+                fallback={
+                    <div style={{ margin: "20rem auto" }}>
+                        <Spinner />
+                    </div>
+                }
+            >
+                <Route path="/auth" exact component={Auth} />
+            </Suspense>
+        );
+        if (this.props.token) {
+            routes = (
+                <Suspense
+                    fallback={
+                        <div style={{ margin: "20rem auto" }}>
+                            <Spinner />
+                        </div>
+                    }
+                >
+                    <Route path="/auth" exact component={Auth} />
+                    <Route path="/orders" exact component={Orders} />
+                    <Route path="/checkout" component={Checkout} />
+                    <Route path="/logout" exact component={Logout} />
+                </Suspense>
+            );
+        }
         return (
             <BrowserRouter>
                 <div className="App">
                     <Layout>
                         <Switch>
                             <Route path="/" exact component={BurgerBuilder} />
-                            <Suspense
-                                fallback={
-                                    <div style={{ margin: "20rem auto" }}>
-                                        <Spinner />
-                                    </div>
-                                }
-                            >
-                                <Route path="/orders" exact component={Orders} />
-                                <Route path="/checkout" component={Checkout} />
-                                <Route path="/auth" component={Auth} />
-                                <Route path="/logout" exact component={Logout} />
-                            </Suspense>
+                            {routes}
                         </Switch>
+                        <Redirect to="/" />
                     </Layout>
                 </div>
             </BrowserRouter>
