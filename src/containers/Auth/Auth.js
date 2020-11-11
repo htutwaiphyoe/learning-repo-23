@@ -7,6 +7,7 @@ import Button from "../../components/UI/Button/Button";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from "./Auth.module.css";
 import * as actionCreators from "../../store/actions";
+import { checkValidation } from "../../utils/utils";
 class Auth extends React.Component {
     state = {
         authForm: {
@@ -41,23 +42,14 @@ class Auth extends React.Component {
         },
         isSignUp: true,
     };
-    checkValidation = (value, rules) => {
-        let isValid = true;
-        if (rules.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        return isValid;
-    };
+
     onInputChange = (e, type) => {
         const updatedAuthForm = {
             ...this.state.authForm,
             [type]: {
                 ...this.state.authForm[type],
                 value: e.target.value,
-                valid: this.checkValidation(e.target.value, this.state.authForm[type].validations),
+                valid: checkValidation(e.target.value, this.state.authForm[type].validations),
                 touch: true,
             },
         };

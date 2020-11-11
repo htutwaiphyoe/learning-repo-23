@@ -7,6 +7,7 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 import Message from "../../../components/UI/Message/Message";
 import Input from "../../../components/UI/Input/Input";
 import * as actionCreators from "../../../store/actions";
+import { checkValidation } from "../../../utils/utils";
 class CheckoutForm extends Component {
     state = {
         orderForm: {
@@ -102,26 +103,18 @@ class CheckoutForm extends Component {
             this.props.token
         );
     };
-    checkValidation = (value, rules) => {
-        let isValid = true;
-        if (rules.required) {
-            isValid = value.trim() !== "" && isValid;
-        }
-        if (rules.minLength) {
-            isValid = value.trim().length >= rules.minLength && isValid;
-        }
-        return isValid;
-    };
+
     onInputChange = (e, type) => {
-        const updatedOrderForm = { ...this.state.orderForm };
-        const updatedFormElement = { ...updatedOrderForm[type] };
-        updatedFormElement.value = e.target.value;
-        updatedFormElement.valid = this.checkValidation(
-            updatedFormElement.value,
-            updatedFormElement.validations
-        );
-        updatedFormElement.touch = true;
-        updatedOrderForm[type] = updatedFormElement;
+        const updatedOrderForm = {
+            ...this.state.orderForm,
+            [type]: {
+                ...this.state.orderForm[type],
+                value: e.target.value,
+                valid: checkValidation(e.target.value, this.state.orderForm[type].validations),
+                touch: true,
+            },
+        };
+
         let formValid = true;
         for (let i in updatedOrderForm) {
             formValid = formValid && updatedOrderForm[i].valid;
