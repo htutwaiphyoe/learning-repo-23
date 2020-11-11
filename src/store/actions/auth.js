@@ -20,6 +20,9 @@ export const successAuth = (payload) => {
 };
 
 export const logout = () => {
+    localStorage.removeItem("burgerbuilder-token");
+    localStorage.removeItem("burgerbuilder-token-expiresIn");
+    localStorage.removeItem("burgerbuilder-user");
     return {
         type: actionTypes.LOGOUT,
     };
@@ -44,9 +47,37 @@ export const auth = (email, password, isSignUp) => async (dispatch) => {
             password,
             returnSecureToken: true,
         });
+        const expireDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
+        localStorage.setItem("burgerbuilder-token", response.data.idToken);
+        localStorage.setItem(
+            "burgerbuilder-user",
+            JSON.stringify({
+                email: response.data.email,
+                id: response.data.localId,
+            })
+        );
+        localStorage.setItem("burgerbuilder-token-expiresIn", expireDate);
         dispatch(successAuth(response.data));
         dispatch(expireAuth(response.data.expiresIn));
     } catch (err) {
         dispatch(showError(err.response.data.error));
+    }
+};
+
+export const checkLocalstorage = () => (dispatch) => {
+    const token = localStorage.getItem("burgerbuilder-token");
+    if (!token) {
+        dispatch(logout());
+    } else {
+        const user = JSON.parse(localStorage.getItem("burgerbuilder-user"));
+        const expiresIn = new Date(localStorage.getItem("burgerbuilder-token-expiresIn"));
+
+        if (new Date() > expiresIn) {
+            console.log("ok");
+            dispatch(logout());
+        } else {
+            dispatch(successAuth({ idToken: token, localId: user.id, email: user.email }));
+            dispatch(expireAuth((expiresIn - new Date()) / 1000));
+        }
     }
 };

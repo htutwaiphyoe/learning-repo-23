@@ -6,11 +6,15 @@ import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import { Suspense } from "react";
 import Spinner from "../components/UI/Spinner/Spinner";
+import * as actionCreators from "../store/actions";
 const Checkout = React.lazy(() => import("./Checkout/Checkout"));
 const Orders = React.lazy(() => import("./Orders/Orders"));
 const Auth = React.lazy(() => import("./Auth/Auth"));
 const Logout = React.lazy(() => import("./Auth/Logout/Logout"));
 class App extends React.Component {
+    componentDidMount() {
+        this.props.checkLocalstorage();
+    }
     render() {
         return (
             <BrowserRouter>
@@ -43,4 +47,7 @@ const mapStateToProps = (state) => {
         token: state.auth.token !== null,
     };
 };
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = {
+    checkLocalstorage: actionCreators.checkLocalstorage,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
