@@ -21,3 +21,4 @@ export const SHOW_AUTH_LOADING = "SHOW_AUTH_LOADING";
 export const SHOW_ERROR = "SHOW_ERROR";
 export const SUCCESS_AUTH = "SUCCESS_AUTH";
 export const LOGOUT = "LOGOUT";
+export const CHECK_BUILDING = "CHECK_BUILDING";

@@ -34,3 +34,9 @@ export const initIngredients = () => async (dispatch) => {
         dispatch(showError(err.message));
     }
 };
+
+export const checkBuilding = () => {
+    return {
+        type: actionTypes.CHECK_BUILDING,
+    };
+};

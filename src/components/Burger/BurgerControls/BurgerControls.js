@@ -16,6 +16,7 @@ const BurgerControls = (props) => {
         />
     ));
     const redirectSignUp = () => {
+        props.checkBuilding();
         props.history.push("/auth");
     };
 

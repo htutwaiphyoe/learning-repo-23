@@ -116,7 +116,7 @@ class Auth extends React.Component {
             </React.Fragment>
         );
         if (this.props.token) {
-            component = <Redirect to="/" />;
+            component = this.props.building ? <Redirect to="/checkout" /> : <Redirect to="/" />;
         }
         if (this.props.loading) {
             component = <Spinner />;
@@ -130,6 +130,7 @@ const mapStateToProps = (state) => {
         loading: state.auth.loading,
         error: state.auth.error,
         token: state.auth.token !== null,
+        building: state.burgerbuilder.building,
     };
 };
 const mapDispatchToProps = {

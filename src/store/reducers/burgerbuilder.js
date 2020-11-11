@@ -5,6 +5,7 @@ const initialState = {
     price: 2,
     error: null,
     loading: false,
+    building: false,
 };
 const INGREDIENT_PRICE = {
     Salad: 0.4,
@@ -24,6 +25,7 @@ const initIngredients = (state, action) => {
         price: 2,
         loading: false,
         error: null,
+        building: false,
     });
 };
 const addIngredient = (state, action) => {
@@ -57,6 +59,8 @@ const reducer = (state = initialState, action) => {
             return updateObject(state, { error: action.payload, loading: false });
         case actionTypes.SHOW_BURGERBUILDER_LOADING:
             return updateObject(state, { loading: true });
+        case actionTypes.CHECK_BUILDING:
+            return updateObject(state, { building: true });
         default:
             return state;
     }

@@ -62,6 +62,7 @@ class BurgerBuilder extends React.Component {
                         purchasable={this.purchasableHandler()}
                         onShowModal={this.onShowModalHandler}
                         isAuth={this.props.token}
+                        checkBuilding={this.props.checkBuilding}
                     />
                 </React.Fragment>
             );
@@ -104,5 +105,6 @@ const mapDispatchToProps = {
     addIngredient: actionCreators.addIngredient,
     removeIngredient: actionCreators.removeIngredient,
     initIngredients: actionCreators.initIngredients,
+    checkBuilding: actionCreators.checkBuilding,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
