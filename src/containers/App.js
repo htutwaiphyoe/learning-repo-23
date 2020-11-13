@@ -17,24 +17,14 @@ class App extends React.Component {
     }
     render() {
         let routes = (
-            <Suspense
-                fallback={
-                    <div style={{ margin: "20rem auto" }}>
-                        <Spinner />
-                    </div>
-                }
-            >
+            <Suspense fallback={<div style={{ margin: "20rem auto" }}>{/* <Spinner /> */}</div>}>
                 <Route path="/auth" exact component={Auth} />
             </Suspense>
         );
         if (this.props.token) {
             routes = (
                 <Suspense
-                    fallback={
-                        <div style={{ margin: "20rem auto" }}>
-                            <Spinner />
-                        </div>
-                    }
+                    fallback={<div style={{ margin: "20rem auto" }}>{/* <Spinner /> */}</div>}
                 >
                     <Route path="/auth" exact component={Auth} />
                     <Route path="/orders" exact component={Orders} />
