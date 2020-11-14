@@ -12,7 +12,7 @@ const Toolbar = (props) => {
             </div>
 
             <nav>
-                <NavigationItems />
+                <NavigationItems token={props.token} />
             </nav>
         </header>
     );

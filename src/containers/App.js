@@ -5,7 +5,6 @@ import "./App.css";
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
 import { Suspense } from "react";
-import Spinner from "../components/UI/Spinner/Spinner";
 import * as actionCreators from "../store/actions";
 const Checkout = React.lazy(() => import("./Checkout/Checkout"));
 const Orders = React.lazy(() => import("./Orders/Orders"));

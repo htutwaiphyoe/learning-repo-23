@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import classes from "./NavigationItems.module.css";
 import NavigationItem from "./NavigationItem/NavigationItem";
 
@@ -26,9 +25,5 @@ const NavigationItems = (props) => {
         </ul>
     );
 };
-const mapStateToProps = (state) => {
-    return {
-        token: state.auth.token !== null,
-    };
-};
-export default connect(mapStateToProps)(NavigationItems);
+
+export default NavigationItems;

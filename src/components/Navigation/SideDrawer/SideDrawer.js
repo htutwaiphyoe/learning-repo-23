@@ -12,7 +12,7 @@ const SideDrawer = (props) => {
                 onClick={props.onClickHandler}
             >
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems token={props.token}/>
                 </nav>
                 <p className={classes.Developer}>
                     Developed by <a href="https://htutwaiphyoe.netlify.app"> Htut Wai Phyoe</a>
