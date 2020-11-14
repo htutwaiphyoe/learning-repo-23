@@ -9,7 +9,7 @@ import classes from "./BurgerBuilder.module.css";
 import Message from "../../components/UI/Message/Message";
 import * as actionCreators from "../../store/actions";
 
-class BurgerBuilder extends React.Component {
+export class BurgerBuilder extends React.Component {
     state = {
         purchasable: false,
         shownModal: false,
