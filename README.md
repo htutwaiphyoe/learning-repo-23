@@ -1,6 +1,6 @@
 # Burger Builder - React Project
 
-See in actions at ![burgerbuilder](https://burgerbuilder-413b0.web.app/)
+See in actions at [website](https://burgerbuilder-413b0.web.app/)
 
 ## Installation
 
