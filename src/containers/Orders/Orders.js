@@ -6,9 +6,10 @@ import Order from "../../components/Order/Order";
 import classes from "./Orders.module.css";
 import * as actionCreators from "../../store/actions";
 const Orders = (props) => {
+    const { fetchOrders, token, userid } = props;
     useEffect(() => {
-        props.fetchOrders(props.token, props.userid);
-    }, []);
+        fetchOrders(token, userid);
+    }, [fetchOrders, token, userid]);
 
     const show = () => {
         let components = props.orders.map((order) => <Order order={order} key={order.id} />);

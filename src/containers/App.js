@@ -11,9 +11,10 @@ const Orders = React.lazy(() => import("./Orders/Orders"));
 const Auth = React.lazy(() => import("./Auth/Auth"));
 const Logout = React.lazy(() => import("./Auth/Logout/Logout"));
 const App = (props) => {
+    const { checkLocalstorage } = props;
     useEffect(() => {
-        props.checkLocalstorage();
-    }, []);
+        checkLocalstorage();
+    }, [checkLocalstorage]);
 
     let routes = (
         <Suspense fallback={<div style={{ margin: "20rem auto" }}>{/* <Spinner /> */}</div>}>

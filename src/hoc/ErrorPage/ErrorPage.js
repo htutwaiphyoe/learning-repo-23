@@ -1,39 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Modal from "../../components/UI/Modal/Modal";
+import useHttp from "../../hooks/http";
 const ErrorPage = (WrappedComponent, axios) => {
     return (props) => {
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [error, setError] = useState(null);
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        useEffect(() => {
-            const requestInterceptor = axios.interceptors.request.use(
-                (config) => {
-                    onShowModal();
-                    return config;
-                },
-                (error) => {
-                    setError(error);
-                    return Promise.reject(error);
-                }
-            );
-            const responseInterceptor = axios.interceptors.response.use(
-                (config) => {
-                    return config;
-                },
-                (error) => {
-                    setError(error);
-                    return Promise.reject(error);
-                }
-            );
-            return () => {
-                axios.interceptors.request.eject(requestInterceptor);
-                axios.interceptors.response.eject(responseInterceptor);
-            };
-        }, []);
-        const onShowModal = () => {
-            setError(null);
-        };
-
+        const [error, onShowModal] = useHttp(axios);
         return (
             <React.Fragment>
                 <Modal show={error} onShowModal={onShowModal}>

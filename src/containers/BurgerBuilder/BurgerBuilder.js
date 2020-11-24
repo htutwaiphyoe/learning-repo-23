@@ -11,10 +11,10 @@ import * as actionCreators from "../../store/actions";
 
 export const BurgerBuilder = (props) => {
     const [shownModal, setShownModal] = useState(false);
-
+    const { initIngredients } = props;
     useEffect(() => {
-        props.initIngredients();
-    }, []);
+        initIngredients();
+    }, [initIngredients]);
 
     const onShowModalHandler = () => {
         setShownModal((prevState) => !prevState);

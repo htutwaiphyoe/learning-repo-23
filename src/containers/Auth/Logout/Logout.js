@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import { Redirect } from "react-router-dom";
 const Logout = (props) => {
+    const { logout } = props;
     useEffect(() => {
-        props.logout();
-    }, []);
+        logout();
+    }, [logout]);
 
     return <Redirect to="/" />;
 };
