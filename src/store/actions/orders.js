@@ -30,6 +30,7 @@ export const fetchOrders = (token, userid) => async (dispatch) => {
         for (let i in response.data) {
             orders.push({ id: i, ...response.data[i] });
         }
+        console.log(response);
         dispatch(storeOrders(orders));
     } catch (err) {
         dispatch(failOrders(err.message));

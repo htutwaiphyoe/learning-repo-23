@@ -1,29 +1,40 @@
-import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import React, { useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Message from "../../components/UI/Message/Message";
 import Order from "../../components/Order/Order";
 import classes from "./Orders.module.css";
 import * as actionCreators from "../../store/actions";
 const Orders = (props) => {
-    const { fetchOrders, token, userid } = props;
+    const orders = useSelector((state) => state.orders.orders);
+    const error = useSelector((state) => state.orders.error);
+    const loading = useSelector((state) => state.orders.loading);
+    const token = useSelector((state) => state.auth.token);
+    const userid = useSelector((state) => state.auth.user.id);
+
+    const dispatch = useDispatch();
+    const fetchOrders = useCallback(() => dispatch(actionCreators.fetchOrders(token, userid)), [
+        dispatch,
+        token,
+        userid,
+    ]);
     useEffect(() => {
-        fetchOrders(token, userid);
-    }, [fetchOrders, token, userid]);
+        fetchOrders();
+    }, [fetchOrders]);
 
     const show = () => {
-        let components = props.orders.map((order) => <Order order={order} key={order.id} />);
-        if (props.orders.length === 0) {
+        let components = orders.map((order) => <Order order={order} key={order.id} />);
+        if (orders.length === 0) {
             components = <Message type="Normal">No Orders</Message>;
         }
-        if (props.loading) {
+        if (loading) {
             components = (
                 <div className={classes.Orders}>
                     <Spinner />
                 </div>
             );
         }
-        if (props.error) {
+        if (error) {
             components = <Message type="Error">{props.error}</Message>;
         }
         return components;
@@ -31,16 +42,5 @@ const Orders = (props) => {
 
     return <div>{show()}</div>;
 };
-const mapStateToProps = (state) => {
-    return {
-        orders: state.orders.orders,
-        error: state.orders.error,
-        loading: state.orders.loading,
-        token: state.auth.token,
-        userid: state.auth.user.id,
-    };
-};
-const mapDispatchToProps = {
-    fetchOrders: actionCreators.fetchOrders,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Orders);
+
+export default Orders;

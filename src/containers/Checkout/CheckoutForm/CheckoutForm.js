@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../../components/UI/Button/Button";
 import classes from "./CheckoutForm.module.css";
 import Spinner from "../../../components/UI/Spinner/Spinner";
@@ -9,6 +9,15 @@ import Input from "../../../components/UI/Input/Input";
 import * as actionCreators from "../../../store/actions";
 import { checkValidation } from "../../../utils/utils";
 const CheckoutForm = (props) => {
+    const dispatch = useDispatch();
+    const ingredients = useSelector((state) => state.burgerbuilder.ingredients);
+    const price = useSelector((state) => state.burgerbuilder.price);
+    const loading = useSelector((state) => state.form.loading);
+    const error = useSelector((state) => state.form.error);
+    const success = useSelector((state) => state.form.success);
+    const token = useSelector((state) => state.auth.token);
+    const userid = useSelector((state) => state.auth.user.id);
+    const email = useSelector((state) => state.auth.user.email);
     const [orderForm, setOrderForm] = useState({
         name: {
             elementType: "input",
@@ -34,7 +43,7 @@ const CheckoutForm = (props) => {
                 placeholder: "Your Email",
                 required: true,
             },
-            value: props.email,
+            value: email,
             validations: {},
             valid: true,
         },
@@ -90,15 +99,17 @@ const CheckoutForm = (props) => {
         for (let key in orderForm) {
             customer[key] = orderForm[key].value;
         }
-        props.submitForm(
-            {
-                ingredients: props.ingredients,
-                price: props.price,
-                customer,
-                userid: props.userid,
-            },
-            props.history,
-            props.token
+        dispatch(
+            actionCreators.submitForm(
+                {
+                    ingredients: ingredients,
+                    price: price,
+                    customer,
+                    userid: userid,
+                },
+                props.history,
+                token
+            )
         );
     };
 
@@ -149,30 +160,16 @@ const CheckoutForm = (props) => {
             </form>
         </React.Fragment>
     );
-    if (props.loading) {
+    if (loading) {
         component = <Spinner />;
     }
-    if (props.error) {
-        component = <Message type="Error">{props.error}</Message>;
+    if (error) {
+        component = <Message type="Error">{error}</Message>;
     }
-    if (props.success) {
+    if (success) {
         component = <Message type="Success">Your order successfully completed</Message>;
     }
     return <div className={classes.CheckoutForm}>{component}</div>;
 };
-const mapStateToProps = (state) => {
-    return {
-        ingredients: state.burgerbuilder.ingredients,
-        price: state.burgerbuilder.price,
-        loading: state.form.loading,
-        error: state.form.error,
-        success: state.form.success,
-        token: state.auth.token,
-        userid: state.auth.user.id,
-        email: state.auth.user.email,
-    };
-};
-const mapDispatchToProps = {
-    submitForm: actionCreators.submitForm,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CheckoutForm));
+
+export default withRouter(CheckoutForm);

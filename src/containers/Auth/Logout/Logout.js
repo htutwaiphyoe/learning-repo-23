@@ -1,16 +1,14 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as actionCreators from "../../../store/actions";
 import { Redirect } from "react-router-dom";
 const Logout = (props) => {
-    const { logout } = props;
+    const dispatch = useDispatch();
     useEffect(() => {
-        logout();
-    }, [logout]);
+        dispatch(actionCreators.logout());
+    }, [dispatch]);
 
     return <Redirect to="/" />;
 };
-const mapDispatchToProps = {
-    logout: actionCreators.logout,
-};
-export default connect(null, mapDispatchToProps)(Logout);
+
+export default Logout;

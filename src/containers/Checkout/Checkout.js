@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
 import classes from "./Checkout.module.css";
 const Checkout = (props) => {
+    const ingredients = useSelector((state) => state.burgerbuilder.ingredients);
     const onCheckOutCancel = () => {
         props.history.replace("/");
     };
@@ -17,11 +18,11 @@ const Checkout = (props) => {
             <Redirect to="/" />
         </div>
     );
-    if (props.ingredients) {
+    if (ingredients) {
         component = (
             <React.Fragment>
                 <CheckoutSummary
-                    ingredients={props.ingredients}
+                    ingredients={ingredients}
                     onCheckOutContinue={onCheckOutContinue}
                     onCheckOutCancel={onCheckOutCancel}
                 />
@@ -32,10 +33,5 @@ const Checkout = (props) => {
         return <div>{component}</div>;
     }
 };
-const mapStateToProps = (state) => {
-    return {
-        ingredients: state.burgerbuilder.ingredients,
-        price: state.burgerbuilder.price,
-    };
-};
-export default connect(mapStateToProps)(Checkout);
+
+export default Checkout;

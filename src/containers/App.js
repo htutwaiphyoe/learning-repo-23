@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import "./App.css";
 import Layout from "./Layout/Layout";
 import BurgerBuilder from "./BurgerBuilder/BurgerBuilder";
@@ -11,7 +11,11 @@ const Orders = React.lazy(() => import("./Orders/Orders"));
 const Auth = React.lazy(() => import("./Auth/Auth"));
 const Logout = React.lazy(() => import("./Auth/Logout/Logout"));
 const App = (props) => {
-    const { checkLocalstorage } = props;
+    const token = useSelector((state) => state.auth.token !== null);
+    const dispatch = useDispatch();
+    const checkLocalstorage = useCallback(() => {
+        dispatch(actionCreators.checkLocalstorage());
+    }, [dispatch]);
     useEffect(() => {
         checkLocalstorage();
     }, [checkLocalstorage]);
@@ -21,7 +25,7 @@ const App = (props) => {
             <Route path="/auth" exact component={Auth} />
         </Suspense>
     );
-    if (props.token) {
+    if (token) {
         routes = (
             <Suspense fallback={<div style={{ margin: "20rem auto" }}>{/* <Spinner /> */}</div>}>
                 <Route path="/auth" exact component={Auth} />
@@ -46,12 +50,4 @@ const App = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        token: state.auth.token !== null,
-    };
-};
-const mapDispatchToProps = {
-    checkLocalstorage: actionCreators.checkLocalstorage,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

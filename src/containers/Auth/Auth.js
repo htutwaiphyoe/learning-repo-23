@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import Input from "../../components/UI/Input/Input";
@@ -41,7 +41,11 @@ const Auth = (props) => {
     });
 
     const [isSignUp, setIsSignUp] = useState(true);
-
+    const dispatch = useDispatch();
+    const loading = useSelector((state) => state.auth.loading);
+    const error = useSelector((state) => state.auth.error);
+    const token = useSelector((state) => state.auth.token !== null);
+    const building = useSelector((state) => state.burgerbuilder.building);
     const onInputChange = (e, type) => {
         const updatedAuthForm = {
             ...authForm,
@@ -59,7 +63,7 @@ const Auth = (props) => {
     };
     const onFormSubmit = (e) => {
         e.preventDefault();
-        props.auth(authForm.email.value, authForm.password.value, isSignUp);
+        dispatch(actionCreators.auth(authForm.email.value, authForm.password.value, isSignUp));
     };
 
     const formElements = [];
@@ -69,14 +73,14 @@ const Auth = (props) => {
             config: authForm[key],
         });
     }
-    let error = null;
-    if (props.error) {
-        error = <p className={classes.Error}>{props.error.message}</p>;
+    let err = null;
+    if (error) {
+        err = <p className={classes.Error}>{error.message}</p>;
     }
     let component = (
         <React.Fragment>
             <h1>Sign {isSignUp ? "Up" : "In"} Here</h1>
-            {error}
+            {err}
             <form onSubmit={onFormSubmit}>
                 {formElements.map((e) => (
                     <Input
@@ -96,24 +100,14 @@ const Auth = (props) => {
             </p>
         </React.Fragment>
     );
-    if (props.token) {
-        component = props.building ? <Redirect to="/checkout" /> : <Redirect to="/" />;
+    if (token) {
+        component = building ? <Redirect to="/checkout" /> : <Redirect to="/" />;
     }
-    if (props.loading) {
+    if (loading) {
         component = <Spinner />;
     }
 
     return <div className={classes.Auth}>{component}</div>;
 };
-const mapStateToProps = (state) => {
-    return {
-        loading: state.auth.loading,
-        error: state.auth.error,
-        token: state.auth.token !== null,
-        building: state.burgerbuilder.building,
-    };
-};
-const mapDispatchToProps = {
-    auth: actionCreators.auth,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+
+export default Auth;

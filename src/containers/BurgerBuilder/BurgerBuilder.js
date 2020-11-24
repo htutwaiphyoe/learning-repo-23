@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Burger from "../../components/Burger/Burger";
 import BurgerControls from "../../components/Burger/BurgerControls/BurgerControls";
 import Modal from "../../components/UI/Modal/Modal";
@@ -11,18 +11,27 @@ import * as actionCreators from "../../store/actions";
 
 export const BurgerBuilder = (props) => {
     const [shownModal, setShownModal] = useState(false);
-    const { initIngredients } = props;
+    const dispatch = useDispatch();
+    const addIngredient = (payload) => dispatch(actionCreators.addIngredient(payload));
+    const removeIngredient = (payload) => dispatch(actionCreators.removeIngredient(payload));
+    const checkBuilding = () => dispatch(actionCreators.checkBuilding());
+    const ingredients = useSelector((state) => state.burgerbuilder.ingredients);
+    const price = useSelector((state) => state.burgerbuilder.price);
+    const error = useSelector((state) => state.burgerbuilder.error);
+    const loading = useSelector((state) => state.burgerbuilder.loading);
+    const token = useSelector((state) => state.auth.token !== null);
+
     useEffect(() => {
-        initIngredients();
-    }, [initIngredients]);
+        dispatch(actionCreators.initIngredients());
+    }, [dispatch]);
 
     const onShowModalHandler = () => {
         setShownModal((prevState) => !prevState);
     };
     const purchasableHandler = () => {
         let sum = 0;
-        for (let key of Object.keys(props.ingredients)) {
-            sum += props.ingredients[key];
+        for (let key of Object.keys(ingredients)) {
+            sum += ingredients[key];
         }
         return sum === 0 ? false : true;
     };
@@ -30,17 +39,17 @@ export const BurgerBuilder = (props) => {
         props.history.push("/checkout");
     };
 
-    let disabled = { ...props.ingredients };
+    let disabled = { ...ingredients };
     for (let key in disabled) {
         disabled[key] = disabled[key] <= 0;
     }
     let orderSummary = null;
     let burgerbuilder = null;
-    if (props.ingredients) {
+    if (ingredients) {
         orderSummary = (
             <OrderSummary
-                ingredients={props.ingredients}
-                price={props.price}
+                ingredients={ingredients}
+                price={price}
                 onShowModal={onShowModalHandler}
                 show={shownModal}
                 onContinue={onContinueHandler}
@@ -48,31 +57,31 @@ export const BurgerBuilder = (props) => {
         );
         burgerbuilder = (
             <React.Fragment>
-                <Burger ingredients={props.ingredients} />
+                <Burger ingredients={ingredients} />
                 <BurgerControls
-                    onMoreButtonClick={props.addIngredient}
-                    onLessButtonClick={props.removeIngredient}
+                    onMoreButtonClick={addIngredient}
+                    onLessButtonClick={removeIngredient}
                     disabled={disabled}
-                    price={props.price}
+                    price={price}
                     purchasable={purchasableHandler()}
                     onShowModal={onShowModalHandler}
-                    isAuth={props.token}
-                    checkBuilding={props.checkBuilding}
+                    isAuth={token}
+                    checkBuilding={checkBuilding}
                 />
             </React.Fragment>
         );
     }
-    if (props.loading) {
+    if (loading) {
         burgerbuilder = (
             <div className={classes.BurgerBuilder}>
                 <Spinner />
             </div>
         );
     }
-    if (props.error) {
+    if (error) {
         burgerbuilder = (
             <div className={classes.BurgerBuilder}>
-                <Message type="Error">{props.error}</Message>
+                <Message type="Error">{error}</Message>
             </div>
         );
     }
@@ -86,19 +95,5 @@ export const BurgerBuilder = (props) => {
         </React.Fragment>
     );
 };
-const mapStateToProps = (state) => {
-    return {
-        ingredients: state.burgerbuilder.ingredients,
-        price: state.burgerbuilder.price,
-        error: state.burgerbuilder.error,
-        loading: state.burgerbuilder.loading,
-        token: state.auth.token !== null,
-    };
-};
-const mapDispatchToProps = {
-    addIngredient: actionCreators.addIngredient,
-    removeIngredient: actionCreators.removeIngredient,
-    initIngredients: actionCreators.initIngredients,
-    checkBuilding: actionCreators.checkBuilding,
-};
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
+
+export default BurgerBuilder;
