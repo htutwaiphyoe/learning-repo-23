@@ -1,53 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../../components/UI/Modal/Modal";
 const ErrorPage = (WrappedComponent, axios) => {
-    return class extends React.Component {
-        state = {
-            error: null,
-        };
-        componentDidMount() {
-            this.requestInterceptor = axios.interceptors.request.use(
+    return (props) => {
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        const [error, setError] = useState(null);
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        useEffect(() => {
+            const requestInterceptor = axios.interceptors.request.use(
                 (config) => {
-                    this.onShowModal();
+                    onShowModal();
                     return config;
                 },
                 (error) => {
-                    this.setState({ error });
+                    setError(error);
                     return Promise.reject(error);
                 }
             );
-            this.responseInterceptor = axios.interceptors.response.use(
+            const responseInterceptor = axios.interceptors.response.use(
                 (config) => {
                     return config;
                 },
                 (error) => {
-                    this.setState({ error });
+                    setError(error);
                     return Promise.reject(error);
                 }
             );
-        }
-        componentWillUnmount() {
-            axios.interceptors.request.eject(this.requestInterceptor);
-            axios.interceptors.response.eject(this.responseInterceptor);
-        }
-        onShowModal = () => {
-            this.setState({ error: null });
+            return () => {
+                axios.interceptors.request.eject(requestInterceptor);
+                axios.interceptors.response.eject(responseInterceptor);
+            };
+        }, []);
+        const onShowModal = () => {
+            setError(null);
         };
-        render() {
-            return (
-                <React.Fragment>
-                    <Modal show={this.state.error} onShowModal={this.onShowModal}>
-                        <div style={{ textAlign: "center" }}>
-                            Oops! Something went wrong.
-                            <span role="img" aria-label="bomb">
-                                💣
-                            </span>
-                        </div>
-                    </Modal>
-                    <WrappedComponent {...this.props} />
-                </React.Fragment>
-            );
-        }
+
+        return (
+            <React.Fragment>
+                <Modal show={error} onShowModal={onShowModal}>
+                    <div style={{ textAlign: "center" }}>
+                        Oops! Something went wrong.
+                        <span role="img" aria-label="bomb">
+                            💣
+                        </span>
+                    </div>
+                </Modal>
+                <WrappedComponent {...props} />
+            </React.Fragment>
+        );
     };
 };
 

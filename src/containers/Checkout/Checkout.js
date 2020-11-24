@@ -4,34 +4,34 @@ import { connect } from "react-redux";
 import CheckoutSummary from "../../components/CheckoutSummary/CheckoutSummary";
 import CheckoutForm from "./CheckoutForm/CheckoutForm";
 import classes from "./Checkout.module.css";
-class Checkout extends React.Component {
-    onCheckOutCancel = () => {
-        this.props.history.replace("/");
+const Checkout = (props) => {
+    const onCheckOutCancel = () => {
+        props.history.replace("/");
     };
-    onCheckOutContinue = () => {
-        this.props.history.replace("/checkout/form");
+    const onCheckOutContinue = () => {
+        props.history.replace("/checkout/form");
     };
-    render() {
-        let component = (
-            <div className={classes.Checkout}>
-                <Redirect to="/" />
-            </div>
+
+    let component = (
+        <div className={classes.Checkout}>
+            <Redirect to="/" />
+        </div>
+    );
+    if (props.ingredients) {
+        component = (
+            <React.Fragment>
+                <CheckoutSummary
+                    ingredients={props.ingredients}
+                    onCheckOutContinue={onCheckOutContinue}
+                    onCheckOutCancel={onCheckOutCancel}
+                />
+                <Route path={`${props.match.url}/form`} render={() => <CheckoutForm />} />
+            </React.Fragment>
         );
-        if (this.props.ingredients) {
-            component = (
-                <React.Fragment>
-                    <CheckoutSummary
-                        ingredients={this.props.ingredients}
-                        onCheckOutContinue={this.onCheckOutContinue}
-                        onCheckOutCancel={this.onCheckOutCancel}
-                    />
-                    <Route path={`${this.props.match.url}/form`} render={() => <CheckoutForm />} />
-                </React.Fragment>
-            );
-        }
+
         return <div>{component}</div>;
     }
-}
+};
 const mapStateToProps = (state) => {
     return {
         ingredients: state.burgerbuilder.ingredients,
